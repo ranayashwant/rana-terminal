@@ -1,0 +1,17 @@
+:root {
+  /* Colors */
+  --color-bg: #0B0D0F;
+  --color-panel: #14171A;
+  --color-hairline: #262B30;
+  --color-amber: #E8A33D;
+  --color-green: #3ECF8E;
+  --color-red: #E5484D;
+  --color-text-primary: #ECEDEE;
+  --color-text-muted: #8A9098;
+  --color-text-faint: #5A6169;
+
+  /* Fonts */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
