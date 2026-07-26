@@ -25,6 +25,7 @@ import Header from './components/Header.jsx'
 import Home     from './pages/Home.jsx'
 import Contact  from './pages/Contact.jsx'
 import Resume   from './pages/Resume.jsx'
+import NotFound from './pages/NotFound.jsx'
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path="/"         element={<Home />}     />
         <Route path="/contact"  element={<Contact />}  />
         <Route path="/resume"   element={<Resume />}   />
+        <Route path="*"         element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   )
