@@ -35,14 +35,39 @@
   border-color: var(--color-amber);
 }
 
-/* Window chrome bar — three dots + fake file path */
+/* Window chrome bar — three dots + fake file path + top right screenshot button */
 .card-chrome {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0.6rem;
-  padding: 0.6rem 1rem;
+  padding: 0.5rem 1rem;
   background-color: color-mix(in srgb, var(--color-hairline) 30%, var(--color-panel));
   border-bottom: 1px solid var(--color-hairline);
+}
+
+.chrome-left-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.chrome-screenshot-btn {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--color-amber);
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--color-amber) 40%, transparent);
+  padding: 0.2rem 0.55rem;
+  transition: all 150ms ease;
+  cursor: pointer;
+}
+
+.chrome-screenshot-btn:hover {
+  background-color: var(--color-amber);
+  color: var(--color-bg);
+  border-color: var(--color-amber);
 }
 
 .chrome-dots {
@@ -246,30 +271,28 @@
   color: var(--color-amber);
 }
 
-/* ─── Projects preview section (on Home page) ─────────────────────────────── */
+/* ─── Projects Section (merged on Home page) ────────────────────────────── */
 
-.projects-preview {
+.projects-section {
   padding: 5rem 2rem;
   max-width: 1200px;
   margin: 0 auto;
   border-top: 1px solid var(--color-hairline);
 }
 
-.preview-footer {
-  margin-top: 2rem;
-  text-align: right;
+.sltc-supporting-wrap {
+  margin-top: 2.5rem;
+  width: 100%;
 }
 
-.preview-link {
+.supporting-label {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  color: var(--color-amber);
-  text-decoration: none;
-  transition: opacity 150ms ease;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--color-text-faint);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
 }
-
-.preview-link:hover { opacity: 0.7; }
 
 /* ─── Responsive ──────────────────────────────────────────────────────────── */
 
@@ -277,4 +300,70 @@
   .projects-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ─── Screenshot Modal Overlay & Container ───────────────────────────────── */
+
+.screenshot-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(11, 13, 15, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.screenshot-modal-content {
+  background-color: var(--color-panel);
+  border: 1px solid var(--color-hairline);
+  max-width: 1000px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid var(--color-hairline);
+  background-color: color-mix(in srgb, var(--color-hairline) 30%, var(--color-panel));
+}
+
+.modal-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--color-amber);
+}
+
+.modal-close-btn {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 150ms ease;
+}
+
+.modal-close-btn:hover {
+  color: var(--color-amber);
+}
+
+.modal-full-img {
+  width: 100%;
+  height: auto;
+  max-height: calc(90vh - 50px);
+  object-fit: contain;
+  display: block;
 }

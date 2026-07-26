@@ -187,10 +187,23 @@ function MFScreener() {
   const [view, setView] = useState('competitor')
   const sectionRef = useReveal()
 
+  const [showModal, setShowModal] = useState(false)
+
   return (
     <section className="mfscreener reveal" ref={sectionRef} aria-label="MF Screener Flagship">
-      {/* Badge */}
-      <div className="flagship-badge">FLAGSHIP PROJECT</div>
+      {/* Badge & Top-Right Screenshot Button */}
+      <div className="mfsc-header-row">
+        <div className="flagship-badge">FLAGSHIP PROJECT</div>
+        {mfsc.image && (
+          <button
+            onClick={() => setShowModal(true)}
+            className="chrome-screenshot-btn"
+            style={{ position: 'relative', top: '-4px' }}
+          >
+            📷 [ SCREENSHOT ↗ ]
+          </button>
+        )}
+      </div>
 
       <h2 className="mfsc-title">{mfsc.ticker} — {mfsc.name}</h2>
       <p className="mfsc-pitch">{mfsc.pitch}</p>
@@ -202,16 +215,37 @@ function MFScreener() {
         ))}
       </div>
 
-      {/* GitHub link */}
-      <a
-        href={mfsc.github}
-        className="card-link"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ display: 'inline-flex', marginBottom: '2rem' }}
-      >
-        VIEW SOURCE ↗
-      </a>
+      {/* Action links */}
+      <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.75rem', flexWrap: 'wrap' }}>
+        {mfsc.live && (
+          <a
+            href={mfsc.live}
+            className="card-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: 'var(--color-amber)', borderColor: 'var(--color-amber)' }}
+          >
+            LIVE DEMO ↗
+          </a>
+        )}
+        <a
+          href={mfsc.github}
+          className="card-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          VIEW SOURCE ↗
+        </a>
+        {mfsc.image && (
+          <button
+            onClick={() => setShowModal(true)}
+            className="card-link"
+            style={{ cursor: 'pointer' }}
+          >
+            SCREENSHOT ↗
+          </button>
+        )}
+      </div>
 
       {/* ── Toggle ── */}
       <div className="mfsc-toggle-group" role="group" aria-label="Switch view">
@@ -362,6 +396,18 @@ function MFScreener() {
           </div>
         </div>
       </div>
+      {/* ── Screenshot Full View Modal ── */}
+      {showModal && mfsc.image && (
+        <div className="screenshot-modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="screenshot-modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <span className="modal-title">{mfsc.ticker} — {mfsc.name} PREVIEW</span>
+              <button className="modal-close-btn" onClick={() => setShowModal(false)}>[ CLOSE ✕ ]</button>
+            </div>
+            <img src={mfsc.image} alt={`${mfsc.name} full resolution preview`} className="modal-full-img" />
+          </div>
+        </div>
+      )}
     </section>
   )
 }

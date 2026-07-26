@@ -1,32 +1,29 @@
-/* Home.jsx — / route. Composes all home page sections in order (spec §3.1).
+/* Home.jsx — / route. Single page experience with merged Projects section.
    
    Section order:
-   1. Hero (typewriter + count-up stats + CTAs)   — Step 3 ✓
-   2. Ticker strip (auto-scroll stats)             — Step 4
-   3. About ("Asset Reallocation" two panels)     — Step 5
-   4. Experience (rows + education + certs)       — Step 5
-   5. Skills (Order Book + GitHub calendar)       — Step 6
-   6. Career NAV Timeline (SVG milestone chart)   — Step 8
-   7. Projects preview (2 cards + VIEW ALL link)  — Step 7
-   8. Footer
-   
-   Header is in App.jsx — NOT here. It persists across all routes. */
+   1. Hero (typewriter + count-up stats + CTAs)
+   2. Ticker strip (auto-scroll stats)
+   3. About ("Asset Reallocation" two panels)
+   4. Experience (work rows + education + certs)
+   5. Projects (Flagship MFSC + Flagship SLTC Detail) — anchored #projects
+   6. Skills (Order Book + live GitHub calendar API)
+   7. Career NAV Timeline (SVG milestone chart)
+   8. Footer */
 
 import Hero          from '../components/Hero.jsx'
 import Ticker        from '../components/Ticker.jsx'
 import About         from '../components/About.jsx'
 import Experience    from '../components/Experience.jsx'
+import MFScreener    from '../components/MFScreener.jsx'
+import SLTCDetail    from '../components/SLTCDetail.jsx'
 import Skills        from '../components/Skills.jsx'
 import NAVTimeline   from '../components/NAVTimeline.jsx'
-import ProjectCard   from '../components/ProjectCard.jsx'
 import Footer        from '../components/Footer.jsx'
-import { projects }  from '../data/content.js'
 import { useReveal } from '../hooks/useReveal.js'
-import { Link }      from 'react-router-dom'
-import '../styles/projects.css'   /* for .projects-preview, .projects-grid, .preview-link */
+import '../styles/projects.css'
 
 function Home() {
-  const previewRef = useReveal()
+  const projectsRef = useReveal()
 
   return (
     <main>
@@ -42,26 +39,24 @@ function Home() {
       {/* 4. Experience — work rows, education, certifications */}
       <Experience />
 
-      {/* 5. Skills — Order Book (Bids/Asks) + GitHub calendar */}
-      <Skills />
+      {/* 5. Projects — Flagship MFSC + Flagship SLTC Detail (placed right after Experience) */}
+      <section id="projects" className="projects-section reveal" ref={projectsRef} aria-label="Featured Projects">
+        <div className="section-label">PROJECTS — FEATURED WORK</div>
+        
+        {/* MF Screener (MFSC) Flagship Section */}
+        <MFScreener />
 
-      {/* 6. Career NAV Timeline — SVG line chart */}
-      <NAVTimeline />
-
-      {/* 7. Projects preview — 2 cards + link to full /projects page */}
-      <section className="projects-preview reveal" ref={previewRef} aria-label="Projects preview">
-        <div className="section-label">PROJECTS</div>
-        <div className="projects-grid">
-          {projects.map(project => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </div>
-        <div className="preview-footer">
-          <Link to="/projects" className="preview-link">
-            VIEW ALL PROJECTS + FLAGSHIP DETAIL →
-          </Link>
+        {/* Sign Language to Text (SLTC) Flagship Section */}
+        <div style={{ marginTop: '2.5rem' }}>
+          <SLTCDetail />
         </div>
       </section>
+
+      {/* 6. Skills — Order Book (Bids/Asks) + live GitHub calendar API */}
+      <Skills />
+
+      {/* 7. Career NAV Timeline — SVG line chart */}
+      <NAVTimeline />
 
       {/* 8. Footer */}
       <Footer />

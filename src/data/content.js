@@ -5,7 +5,6 @@
 
 export const navLinks = [
   { label: 'HOME',     path: '/' },
-  { label: 'PROJECTS', path: '/projects' },
   { label: 'CONTACT',  path: '/contact' },
   { label: 'RESUME',   path: '/resume' },
 ]
@@ -32,7 +31,7 @@ export const heroContent = {
     { value: 2,     suffix: '+ YRS',   label: 'FINTECH DOMAIN'   },
   ],
   cta: {
-    projects: '/projects',
+    projects: '#projects',
     resume:   '/RANA%20YASHWANT%20SINGH%20Resume.pdf',
     github:   'https://github.com/ranayashwant',
   },
@@ -188,7 +187,7 @@ export const projects = [
       { label: 'YEAR',    value: '2024'    },
     ],
     github:   'https://github.com/ranayashwant/mf-screener',
-    live:     null,
+    live:     'https://mf-screener-three.vercel.app/',
     flagship: true,
     description: [
       'Screens 11,000+ mutual fund schemes by category, risk, returns, and expense ratio via live AMFI data REST API.',

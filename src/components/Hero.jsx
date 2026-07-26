@@ -124,10 +124,10 @@ function Hero() {
       {/* Three actions per spec §3.1: internal link, PDF download, external GitHub */}
       <div className="hero__cta">
 
-        {/* Internal link — React Router <Link> for no page reload */}
-        <Link to={heroContent.cta.projects} className="btn btn--primary">
+        {/* Smooth scroll anchor to #projects section on the home page */}
+        <a href="#projects" className="btn btn--primary">
           VIEW PROJECTS
-        </Link>
+        </a>
 
         {/* PDF download — plain <a> tag (not React Router Link) because it targets
             a static file in /public, not a React route.

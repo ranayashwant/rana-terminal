@@ -1,14 +1,15 @@
 /* ProjectCard.jsx — window-chrome project card (spec §3.2).
    
-   Window chrome: three dots (close/minimize/maximize) + mono fake file path.
-   Screenshot area: 16:10 aspect-ratio, object-fit cover (or placeholder if no img).
-   Hover: metrics row slides up from bottom.
-   No device-frame mockups — just the window-chrome wrapper (spec §7). */
+   Window chrome: three dots + mono fake file path + top-right SCREENSHOT modal trigger button.
+   Screenshot area: 16:10 aspect-ratio with real image.
+   Hover: metrics row slides up from bottom. */
 
+import { useState } from 'react'
 import '../styles/projects.css'
 
 function ProjectCard({ project }) {
-  const { ticker, name, pitch, stack, metrics, github, live } = project
+  const { ticker, name, pitch, stack, metrics, github, live, image } = project
+  const [showModal, setShowModal] = useState(false)
 
   /* Fake file path used in the window chrome tab — mimics code-editor appearance */
   const chromePath = `~/projects/${ticker.toLowerCase()}/preview`
@@ -17,20 +18,31 @@ function ProjectCard({ project }) {
     <article className="project-card" aria-label={`${ticker} — ${name}`}>
 
       {/* ── Window chrome bar ── */}
-      <div className="card-chrome" aria-hidden="true">
-        <div className="chrome-dots">
+      <div className="card-chrome">
+        <div className="chrome-dots" aria-hidden="true">
           <span className="chrome-dot chrome-dot--red"   />
           <span className="chrome-dot chrome-dot--amber" />
           <span className="chrome-dot chrome-dot--green" />
         </div>
         <span className="chrome-path">{chromePath}</span>
+
+        {/* Top-Right Screenshot Modal Button */}
+        {image && (
+          <button
+            onClick={() => setShowModal(true)}
+            className="chrome-screenshot-btn"
+            title="View full project screenshot"
+          >
+            📷 [ SCREENSHOT ↗ ]
+          </button>
+        )}
       </div>
 
       {/* ── Screenshot area (16:10) ── */}
-      <div className="card-screenshot">
-        {project.image ? (
+      <div className="card-screenshot" onClick={() => image && setShowModal(true)}>
+        {image ? (
           <img
-            src={project.image}
+            src={image}
             alt={`${name} preview`}
             className="card-screenshot-img"
             loading="lazy"
@@ -69,7 +81,6 @@ function ProjectCard({ project }) {
 
       {/* ── Links ── */}
       <div className="card-links">
-        {/* GitHub — always present */}
         <a
           href={github}
           className="card-link"
@@ -80,7 +91,16 @@ function ProjectCard({ project }) {
           SOURCE ↗
         </a>
 
-        {/* Live demo — only rendered if a URL exists (spec: omit if null) */}
+        {image && (
+          <button
+            onClick={() => setShowModal(true)}
+            className="card-link"
+            style={{ cursor: 'pointer' }}
+          >
+            SCREENSHOT ↗
+          </button>
+        )}
+
         {live && (
           <a
             href={live}
@@ -93,6 +113,19 @@ function ProjectCard({ project }) {
           </a>
         )}
       </div>
+
+      {/* ── Screenshot Full View Modal ── */}
+      {showModal && image && (
+        <div className="screenshot-modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="screenshot-modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <span className="modal-title">{ticker} — {name} PREVIEW</span>
+              <button className="modal-close-btn" onClick={() => setShowModal(false)}>[ CLOSE ✕ ]</button>
+            </div>
+            <img src={image} alt={`${name} full resolution preview`} className="modal-full-img" />
+          </div>
+        </div>
+      )}
     </article>
   )
 }
