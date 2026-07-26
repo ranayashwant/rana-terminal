@@ -21,6 +21,16 @@
   transform: translateY(0);
 }
 
+/* When a parent .reveal becomes .revealed, also show its child .reveal elements.
+   This is the correct pattern when only the parent has an IntersectionObserver ref
+   and child rows are staggered via CSS delay only (no per-row JS observer needed).
+   Stagger delays on .reveal--d1/d2/etc. still fire because transition-delay applies
+   the moment the CSS state changes. */
+.revealed .reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* ─── Stagger delays — for row-by-row list reveals ───────────────────────── */
 /* Used on siblings: className="reveal reveal--d1", "--d2", etc. */
 
