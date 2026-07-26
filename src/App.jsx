@@ -1,24 +1,35 @@
-/* App.jsx — root component. Its only job at this stage is to own the router.
-   All visual layout lives inside the page components (src/pages/).
-   Header/nav will be added here in Step 3, wrapping the Routes. */
+/* App.jsx — root component. Owns the router and the Header.
+   
+   Structure:
+     <BrowserRouter>       — provides router context to everything inside
+       <Header />          — sticky nav, rendered once, persists across all routes
+       <Routes>            — swaps the active page component on navigation
+         <Route ... />
+       </Routes>
+     </BrowserRouter>
+   
+   Header must be INSIDE BrowserRouter (NavLink needs router context)
+   but OUTSIDE Routes (so it doesn't unmount/remount on every navigation). */
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-/* Page components — one per route, all placeholders until their build step */
+/* Persistent layout component */
+import Header from './components/Header.jsx'
+
+/* Page components — one per route */
 import Home     from './pages/Home.jsx'
 import Projects from './pages/Projects.jsx'
 import Contact  from './pages/Contact.jsx'
 import Resume   from './pages/Resume.jsx'
 
 function App() {
-  /* BrowserRouter  — enables client-side routing via the HTML5 History API.
-                       No full-page reloads on navigation.
-     Routes          — renders only the first <Route> whose path matches the URL.
-     Route path="/"  — exact root match (React Router v6+ defaults to exact).
-     The vercel.json rewrite rule ensures that direct visits to /projects etc.
-     still land on index.html so React Router can take over. */
   return (
     <BrowserRouter>
+      {/* Header renders here — above Routes — so it never unmounts on navigation */}
+      <Header />
+
+      {/* Routes renders only the matched page component.
+          Everything inside here swaps when the URL changes. */}
       <Routes>
         <Route path="/"         element={<Home />}     />
         <Route path="/projects" element={<Projects />} />

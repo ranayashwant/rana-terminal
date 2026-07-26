@@ -1,0 +1,108 @@
+/* header.css — sticky nav bar, present on every page.
+   Imported by Header.jsx. Uses only tokens.css CSS variables — no hardcoded hex.
+   
+   Layout: flex row, space-between
+     Left:  brand name (mono, links home)
+     Right: nav links + status indicator (green dot + OPEN TO WORK) */
+
+/* ─── Outer shell ─────────────────────────────────────────────────────────── */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100; /* above all page content so it doesn't get buried by sections */
+  background-color: var(--color-panel);
+  border-bottom: 1px solid var(--color-hairline); /* hairline — no shadow, per spec §1.3 */
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 3.5rem; /* fixed height keeps the bar crisp and vertically consistent */
+  max-width: 1200px;
+  margin: 0 auto; /* center content on very wide screens */
+}
+
+/* ─── Brand (left side) ───────────────────────────────────────────────────── */
+
+.header__brand {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  /* Subtle amber on hover — signals it's interactive */
+  transition: color 150ms ease;
+}
+
+.header__brand:hover {
+  color: var(--color-amber);
+}
+
+/* ─── Nav (right side) ────────────────────────────────────────────────────── */
+
+.header__nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem; /* space between each nav link */
+}
+
+/* Individual nav link — muted by default, amber when active or hovered */
+.nav-link {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.nav-link:hover {
+  color: var(--color-text-primary);
+}
+
+/* Active state — set by NavLink's isActive prop in Header.jsx.
+   Amber signals "you are here" — consistent with the amber = signal-color rule. */
+.nav-link--active {
+  color: var(--color-amber);
+}
+
+/* ─── Status indicator ────────────────────────────────────────────────────── */
+
+/* Visually separated from nav links by a hairline — same divider language as the rest of the site */
+.header__status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-left: 1.5rem;
+  margin-left: 0.5rem;
+  border-left: 1px solid var(--color-hairline);
+}
+
+/* Green dot — green = active/open-to-work per spec §5.
+   Pulsing animation makes it feel live without being distracting. */
+.status__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--color-green);
+  flex-shrink: 0; /* prevent the dot squashing in narrow layouts */
+  animation: dot-pulse 2.4s ease-in-out infinite;
+}
+
+.status__text {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--color-green);
+  white-space: nowrap;
+}
+
+/* Dot pulse — soft opacity loop so it reads "live signal" not "alarm" */
+@keyframes dot-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}

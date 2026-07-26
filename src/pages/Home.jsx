@@ -1,15 +1,19 @@
-/* Home.jsx — placeholder for the / route.
-   Step 3 will replace this with the real Hero section (typewriter headline,
-   count-up stats) and Ticker strip. For now, just confirms routing works
-   and text renders in theme colors. */
+/* Home.jsx — the / route page.
+   Composes the sections that live on the home page.
+   Header is NOT here — it lives in App.jsx and persists across all routes.
+   
+   Current sections (Step 3): Hero
+   Coming in later steps: Ticker (Step 4), About, Experience (Step 5),
+   Skills (Step 6), Projects preview (Step 7), Footer. */
+
+import Hero from '../components/Hero.jsx'
 
 function Home() {
   return (
-    /* main: semantic HTML landmark — signals "primary content" to browsers/screen readers */
+    /* main: semantic HTML landmark for the primary page content.
+       Screen readers use this to skip past the sticky header. */
     <main>
-      <h1 style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text-primary)' }}>
-        HOME
-      </h1>
+      <Hero />
     </main>
   )
 }
