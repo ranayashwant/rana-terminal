@@ -66,12 +66,13 @@ function Skills() {
       </div>
 
       {/* GitHub contribution calendar — real data via ghchart.rshah.org.
-          The service renders the actual GitHub contribution graph as an SVG.
-          Color E8A33D matches --color-amber from tokens.css. */}
+          Color 39d353 = GitHub's level-4 green (dark mode) — the service auto-generates
+          all 5 intensity shades from this base, matching GitHub's real green palette.
+          Shades produced: ~0e4429 → 196430 → 26a641 → 30c956 → 39d353 (dark to bright) */}
       <div className="skills__calendar">
         <div className="calendar-label">GITHUB CONTRIBUTION CALENDAR · @{contactInfo.github.split('/').pop()}</div>
         <img
-          src={`https://ghchart.rshah.org/E8A33D/${contactInfo.github.split('/').pop()}`}
+          src={`https://ghchart.rshah.org/39d353/${contactInfo.github.split('/').pop()}`}
           alt={`GitHub contribution calendar for ${contactInfo.github.split('/').pop()}`}
           className="github-calendar"
           loading="lazy"

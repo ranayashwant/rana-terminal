@@ -146,8 +146,6 @@
   height: auto;
   border: 1px solid var(--color-hairline);
   display: block;
-  /* filter to nudge the chart into the site's color temperature */
-  filter: brightness(0.9) saturate(1.1);
 }
 
 .calendar-link {
