@@ -1,26 +1,30 @@
+/* Reset: browsers apply inconsistent default margins/padding to elements.
+   We zero everything out so we control spacing ourselves, not the browser. */
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: border-box; /* padding/border included in element width, not added on top — makes layout math predictable */
 }
 
 body {
-  background-color: var(--color-bg);
+  background-color: var(--color-bg);   /* near-black base from tokens.css */
   color: var(--color-text-primary);
-  font-family: var(--font-body);
-  -webkit-font-smoothing: antialiased;
+  font-family: var(--font-body);        /* Inter — default for all text unless overridden */
+  -webkit-font-smoothing: antialiased;  /* smoother font rendering on Mac/Chrome */
 }
 
 a {
-  color: inherit;
+  color: inherit;         /* links don't get the default blue/purple — they inherit surrounding text color */
   text-decoration: none;
 }
 
 ul, ol {
-  list-style: none;
+  list-style: none;       /* we'll style our own bullets/markers if we ever need them */
 }
 
 button {
-  font-family: inherit;
+  font-family: inherit;   /* buttons don't inherit fonts by default in some browsers — force it */
   cursor: pointer;
+  border: none;
+  background: none;
 }
