@@ -185,36 +185,11 @@ function ERDiagram() {
   )
 }
 
-/* ── Main MFScreener component ── */
 function MFScreener() {
   /* Toggle state: 'competitor' shows feature comparison, 'system' shows engine output */
   const [view, setView] = useState('competitor')
   const sectionRef = useReveal()
-  const detailGridRef = useRef(null)
-  const erDiagramRef = useRef(null)
-
   const [showModal, setShowModal] = useState(false)
-
-  /* GSAP ScrollTrigger: Pinned architecture walkthrough for ER diagram on desktop */
-  useEffect(() => {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReduced || window.innerWidth < 768) return
-
-    const grid = detailGridRef.current
-    const er = erDiagramRef.current
-
-    if (grid && er) {
-      const pinTrigger = ScrollTrigger.create({
-        trigger: grid,
-        start: 'top 20%',
-        end: 'bottom 80%',
-        pin: er,
-        pinSpacing: false,
-      })
-
-      return () => pinTrigger.kill()
-    }
-  }, [])
 
   return (
     <section className="mfscreener reveal mfsc-card-draw" ref={sectionRef} aria-label="MF Screener Flagship">
@@ -376,10 +351,10 @@ function MFScreener() {
       </div>
 
       {/* ── ER Diagram + Payload Inspector (side by side) ── */}
-      <div className="mfsc-detail-grid" ref={detailGridRef}>
+      <div className="mfsc-detail-grid">
 
-        {/* ER Diagram (pinned on desktop) */}
-        <div ref={erDiagramRef}>
+        {/* ER Diagram (sticky on desktop) */}
+        <div className="er-panel-sticky">
           <div className="detail-panel__label">ER DIAGRAM — MYSQL SCHEMA</div>
           <ERDiagram />
         </div>
