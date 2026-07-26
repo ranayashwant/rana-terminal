@@ -16,8 +16,8 @@ import '../styles/resume.css'
 const BOOT_LINES = [
   { text: '> system init...',                type: 'prompt' },
   { text: '✓ authenticated: rana_yashwant',  type: 'ok'     },
-  { text: '> loading resume.pdf',            type: 'prompt' },
-  { text: 'seeking /public/resume.pdf...',   type: 'info'   },
+  { text: '> loading resume file...',        type: 'prompt' },
+  { text: 'seeking /public/RANA YASHWANT SINGH Resume.pdf...', type: 'info' },
   { text: '✓ file located — 1 page',         type: 'ok'     },
   { text: '> decrypting contents...',        type: 'prompt' },
   { text: 'B.Tech ECE · NISM V-A · GATE CSE 2026', type: 'info' },
@@ -96,18 +96,13 @@ function Resume() {
         <div className={`resume-download-wrap ${showDownload ? 'visible' : ''}`}>
           {/* Plain <a> tag — not React Router Link — targets a static file in /public/ */}
           <a
-            href="/resume.pdf"
+            href="/RANA%20YASHWANT%20SINGH%20Resume.pdf"
             className="resume-download-btn"
-            download="Rana_Yashwant_Resume.pdf"
+            download="RANA_YASHWANT_SINGH_Resume.pdf"
             aria-label="Download resume as PDF"
           >
             {'> '}[ DOWNLOAD RESUME.PDF ]
           </a>
-
-          {/* Note for when resume.pdf hasn't been placed in /public yet */}
-          <p className="resume-note">
-            Drop resume.pdf into /public/ to activate this link (Step 13 content task).
-          </p>
         </div>
       </div>
       <Footer />

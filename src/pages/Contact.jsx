@@ -181,7 +181,7 @@ function Contact() {
           <a href={`mailto:${contactInfo.email}`}     className="direct-link">EMAIL ↗</a>
           <a href={contactInfo.github}    target="_blank" rel="noopener noreferrer" className="direct-link">GITHUB ↗</a>
           <a href={contactInfo.linkedin}  target="_blank" rel="noopener noreferrer" className="direct-link">LINKEDIN ↗</a>
-          <a href="/resume.pdf"           className="direct-link" download>RESUME PDF ↓</a>
+          <a href="/RANA%20YASHWANT%20SINGH%20Resume.pdf" className="direct-link" download="RANA_YASHWANT_SINGH_Resume.pdf">RESUME PDF ↓</a>
         </div>
 
       </div>

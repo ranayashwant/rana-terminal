@@ -1,24 +1,17 @@
-/* NAVTimeline.jsx — Career milestone chart styled like a mutual fund NAV chart (spec §5, §8).
-   Implemented as inline SVG: polyline + area fill + milestone dots + labels.
-   Real data only — self-taught dev start date omitted (not confirmed by owner).
-   
-   SVG coordinate system:
-   - viewBox: "0 0 700 280"
-   - Chart area: x 60–680, y 40–220 (x-axis at y=220, y-axis at x=60)
-   - X maps to months elapsed since Jan 2023 (total: 37 months to Feb 2026)
-   - Y maps to milestone "career NAV" value (10–100), inverted (SVG y grows down) */
+/* NAVTimeline.jsx — Clean, un-clustered Career NAV milestone timeline.
+   Custom layout offsets and leader lines prevent any overlapping between close dates. */
 
 import { navTimeline } from '../data/content.js'
 import { useReveal } from '../hooks/useReveal.js'
 import '../styles/nav-timeline.css'
 
 /* ── Chart layout constants ── */
-const SVG_W   = 700
-const SVG_H   = 280
-const CHART_X1 = 60    /* left edge of plot area */
-const CHART_X2 = 680   /* right edge */
-const CHART_Y1 = 40    /* top (max value) */
-const CHART_Y2 = 220   /* bottom (zero baseline) */
+const SVG_W    = 920
+const SVG_H    = 380
+const CHART_X1 = 70     /* left edge of plot area */
+const CHART_X2 = 850    /* right edge */
+const CHART_Y1 = 50     /* top (max value) */
+const CHART_Y2 = 300    /* bottom (zero baseline) */
 
 /* Total time span: Jan 2023 to Feb 2026 = 37 months */
 const TOTAL_MONTHS = 37
@@ -26,12 +19,10 @@ const TOTAL_MONTHS = 37
 /* Converts a milestone's month-offset and NAV value to SVG coordinates */
 function toSVG(monthOffset, value) {
   const x = CHART_X1 + (monthOffset / TOTAL_MONTHS) * (CHART_X2 - CHART_X1)
-  /* Invert Y: higher value = higher on chart (lower SVG y) */
   const y = CHART_Y2 - (value / 110) * (CHART_Y2 - CHART_Y1)
   return { x: Math.round(x), y: Math.round(y) }
 }
 
-/* Month-offset from Jan 2023 for each milestone date */
 function monthOffset(dateStr) {
   const map = {
     'JAN 2023':  0,
@@ -44,16 +35,27 @@ function monthOffset(dateStr) {
   return map[dateStr] ?? 0
 }
 
-/* Pre-compute all SVG points once */
-const points = navTimeline.map(m => ({
-  ...m,
-  ...toSVG(monthOffset(m.date), m.value),
-}))
+/* Custom label layout parameters per milestone index to guarantee zero overlap */
+const LABEL_CONFIGS = [
+  { anchor: 'start',  dx: 0,   dyDate: -24, dyText: -38, side: 'above' }, /* JAN 2023 */
+  { anchor: 'middle', dx: 0,   dyDate: 22,  dyText: 36,  side: 'below' }, /* SEPT 2023 */
+  { anchor: 'end',    dx: -16, dyDate: -42, dyText: -56, side: 'above' }, /* JUN 2024 — high offset left */
+  { anchor: 'start',  dx: 16,  dyDate: 35,  dyText: 49,  side: 'below' }, /* AUG 2024 — low offset right */
+  { anchor: 'middle', dx: 0,   dyDate: -26, dyText: -40, side: 'above' }, /* FEB 2025 */
+  { anchor: 'end',    dx: -10, dyDate: 22,  dyText: 36,  side: 'below' }, /* FEB 2026 */
+]
 
-/* Polyline points string */
+const points = navTimeline.map((m, i) => {
+  const coords = toSVG(monthOffset(m.date), m.value)
+  return {
+    ...m,
+    ...coords,
+    config: LABEL_CONFIGS[i] || { anchor: 'middle', dx: 0, dyDate: -20, dyText: -34, side: 'above' },
+  }
+})
+
 const polylinePoints = points.map(p => `${p.x},${p.y}`).join(' ')
 
-/* Area fill: chart line + drop to baseline + back to start */
 const areaPath = [
   `M ${points[0].x} ${points[0].y}`,
   ...points.slice(1).map(p => `L ${p.x} ${p.y}`),
@@ -62,11 +64,10 @@ const areaPath = [
   'Z',
 ].join(' ')
 
-/* Mono font used in SVG text elements — must match tokens.css */
 const MONO = "'IBM Plex Mono', monospace"
-const AMBER  = '#E8A33D'
-const MUTED  = '#8A9098'
-const FAINT  = '#5A6169'
+const AMBER    = '#E8A33D'
+const MUTED    = '#A0A7B0'
+const FAINT    = '#5A6169'
 const HAIRLINE = '#262B30'
 
 function NAVTimeline() {
@@ -80,7 +81,6 @@ function NAVTimeline() {
       </h2>
       <p className="nav-timeline__intro">
         Career progression plotted as a NAV chart — every milestone is a real dated event.
-        Self-taught dev start date omitted (date not yet confirmed).
       </p>
 
       <div className="nav-timeline__chart-wrap">
@@ -91,14 +91,13 @@ function NAVTimeline() {
           aria-label="Career NAV timeline chart"
         >
           <defs>
-            {/* Gradient fill under the line — amber fade to transparent */}
             <linearGradient id="navGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%"   stopColor={AMBER} stopOpacity="0.18" />
+              <stop offset="0%"   stopColor={AMBER} stopOpacity="0.22" />
               <stop offset="100%" stopColor={AMBER} stopOpacity="0"    />
             </linearGradient>
           </defs>
 
-          {/* ── Horizontal grid lines ── */}
+          {/* ── Grid lines & Y-axis ticks ── */}
           {[25, 50, 75, 100].map(val => {
             const y = CHART_Y2 - (val / 110) * (CHART_Y2 - CHART_Y1)
             return (
@@ -106,11 +105,11 @@ function NAVTimeline() {
                 <line
                   x1={CHART_X1} y1={Math.round(y)}
                   x2={CHART_X2} y2={Math.round(y)}
-                  stroke={HAIRLINE} strokeWidth="1" strokeDasharray="4 4"
+                  stroke={HAIRLINE} strokeWidth="1" strokeDasharray="3 3"
                 />
                 <text
-                  x={CHART_X1 - 8} y={Math.round(y) + 4}
-                  fontFamily={MONO} fontSize="9" fill={FAINT} textAnchor="end"
+                  x={CHART_X1 - 10} y={Math.round(y) + 4}
+                  fontFamily={MONO} fontSize="10" fill={FAINT} textAnchor="end"
                 >
                   {val}
                 </text>
@@ -118,71 +117,72 @@ function NAVTimeline() {
             )
           })}
 
-          {/* ── X-axis baseline ── */}
+          {/* ── Baseline ── */}
           <line x1={CHART_X1} y1={CHART_Y2} x2={CHART_X2} y2={CHART_Y2} stroke={HAIRLINE} strokeWidth="1" />
 
-          {/* ── Area fill under the line ── */}
+          {/* ── Gradient area under line ── */}
           <path d={areaPath} fill="url(#navGradient)" className="nav-area" />
 
-          {/* ── NAV line (draw-on animation triggered by .revealed class) ── */}
+          {/* ── Polyline chart ── */}
           <polyline
             points={polylinePoints}
             fill="none"
             stroke={AMBER}
-            strokeWidth="2"
+            strokeWidth="2.5"
             strokeLinejoin="round"
             className="nav-line"
           />
 
-          {/* ── Milestone dots + labels ── */}
-          {points.map((p, i) => {
-            /* Alternate label above/below to avoid overlap */
-            const labelAbove = i % 2 === 0
-            const labelY     = labelAbove ? p.y - 22 : p.y + 32
-            const dateY      = labelAbove ? p.y - 10 : p.y + 20
+          {/* ── Milestone nodes & callouts ── */}
+          {points.map((p) => {
+            const { anchor, dx, dyDate, dyText, side } = p.config
+            const targetY = side === 'above' ? p.y + dyText - 4 : p.y + dyText + 4
 
             return (
-              <g key={p.date}>
-                {/* Dot */}
+              <g key={p.date} className="nav-node-group">
+                {/* Connector line from node to callout */}
+                <line
+                  x1={p.x} y1={p.y}
+                  x2={p.x + dx} y2={targetY}
+                  stroke="rgba(232, 163, 61, 0.35)"
+                  strokeWidth="1"
+                  strokeDasharray="2 2"
+                />
+
+                {/* Node circle */}
                 <circle
                   cx={p.x} cy={p.y} r="5"
                   className="nav-dot"
                   aria-label={`${p.date}: ${p.label}`}
                 />
 
-                {/* Vertical connector to label */}
-                <line
-                  x1={p.x} y1={labelAbove ? p.y - 6 : p.y + 6}
-                  x2={p.x} y2={dateY}
-                  stroke={HAIRLINE} strokeWidth="1"
-                />
-
-                {/* Date */}
+                {/* Date Label */}
                 <text
-                  x={p.x} y={dateY + (labelAbove ? -2 : 0)}
-                  fontFamily={MONO} fontSize="8.5" fill={FAINT} textAnchor="middle"
+                  x={p.x + dx} y={p.y + dyDate}
+                  fontFamily={MONO} fontSize="9.5" fontWeight="600" fill={AMBER} textAnchor={anchor}
+                  letterSpacing="0.06em"
                 >
                   {p.date}
                 </text>
 
-                {/* Milestone label */}
+                {/* Milestone Description Label */}
                 <text
-                  x={p.x} y={labelY}
-                  fontFamily={MONO} fontSize="9" fill={MUTED} textAnchor="middle"
+                  x={p.x + dx} y={p.y + dyText}
+                  fontFamily={MONO} fontSize="10" fill={MUTED} textAnchor={anchor}
                 >
-                  {p.label.length > 28 ? p.label.slice(0, 28) + '…' : p.label}
+                  {p.label}
                 </text>
               </g>
             )
           })}
 
-          {/* Y-axis label */}
+          {/* Y-axis Title */}
           <text
-            x={14} y={130}
-            fontFamily={MONO} fontSize="9" fill={FAINT}
-            transform={`rotate(-90, 14, 130)`} textAnchor="middle"
+            x={18} y={175}
+            fontFamily={MONO} fontSize="10" fill={FAINT} letterSpacing="0.12em"
+            transform={`rotate(-90, 18, 175)`} textAnchor="middle"
           >
-            CAREER NAV
+            CAREER NAV INDEX
           </text>
         </svg>
       </div>

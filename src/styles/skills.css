@@ -127,10 +127,14 @@
   font-style: italic;
 }
 
-/* ─── GitHub Calendar ─────────────────────────────────────────────────────── */
+/* ─── GitHub Calendar (SVG component) ────────────────────────────────────── */
 
 .skills__calendar {
-  margin-top: 2rem;
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .calendar-label {
@@ -139,24 +143,122 @@
   letter-spacing: 0.14em;
   color: var(--color-text-faint);
   margin-bottom: 1rem;
+  text-align: center;
 }
 
-.github-calendar {
-  width: 100%;
-  height: auto;
+/* Wrap: holds the scroll container, total badge, and legend */
+.gh-cal-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   border: 1px solid var(--color-hairline);
-  display: block;
+  background-color: var(--color-panel);
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 950px;
+  margin: 0 auto;
 }
 
+.gh-cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-hairline) 60%, transparent);
+}
+
+/* Horizontal scroll so the 53-week grid doesn't overflow on narrow screens */
+.gh-cal-scroll {
+  overflow-x: auto;
+  overflow-y: visible;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0.5rem 0;
+  /* Custom thin scrollbar matching the dark theme */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-hairline) transparent;
+}
+
+.gh-cal-scroll::-webkit-scrollbar       { height: 4px; }
+.gh-cal-scroll::-webkit-scrollbar-track { background: transparent; }
+.gh-cal-scroll::-webkit-scrollbar-thumb { background-color: var(--color-hairline); }
+
+/* Total contributions badge */
+.gh-cal-total {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.gh-cal-total-count {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  color: var(--color-amber);
+  font-weight: 600;
+}
+
+.gh-cal-total-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--color-text-faint);
+}
+
+/* Loading / error states */
+.gh-cal-loading,
+.gh-cal-error {
+  padding: 1.5rem;
+  border: 1px solid var(--color-hairline);
+  background: var(--color-panel);
+  text-align: center;
+  width: 100%;
+  max-width: 950px;
+}
+
+.gh-cal-status-text {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-faint);
+}
+
+.gh-cal-fallback-link {
+  color: var(--color-amber);
+  text-decoration: none;
+  transition: opacity 150ms ease;
+}
+
+.gh-cal-fallback-link:hover { opacity: 0.7; }
+
+/* Legend row: Less [■ ■ ■ ■ ■] More */
+.gh-cal-legend {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.gh-legend-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: var(--color-text-faint);
+}
+
+/* GitHub profile link */
 .calendar-link {
   display: inline-block;
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
   font-family: var(--font-mono);
   font-size: 0.68rem;
   letter-spacing: 0.08em;
   color: var(--color-text-faint);
   text-decoration: none;
   transition: color 150ms ease;
+  text-align: center;
 }
 
 .calendar-link:hover { color: var(--color-amber); }

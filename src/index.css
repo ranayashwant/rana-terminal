@@ -11,6 +11,7 @@ body {
   color: var(--color-text-primary);
   font-family: var(--font-body);        /* Inter — default for all text unless overridden */
   -webkit-font-smoothing: antialiased;  /* smoother font rendering on Mac/Chrome */
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M12 3v5m0 8v5m-9-9h5m8 0h5' stroke='%23E8A33D' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='12' cy='12' r='2' fill='%23E8A33D'/%3E%3C/svg%3E") 12 12, auto;
 }
 
 a {
@@ -24,7 +25,15 @@ ul, ol {
 
 button {
   font-family: inherit;   /* buttons don't inherit fonts by default in some browsers — force it */
-  cursor: pointer;
   border: none;
   background: none;
+}
+
+/* Custom terminal cursor for interactive & text elements */
+a, button, [role="button"], input[type="submit"], select, .nav-dot, .project-card, .exp-row {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M4 4l7 16 3-6 6-3L4 4z' fill='%23E8A33D' stroke='%230B0D0F' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 4 4, pointer !important;
+}
+
+input[type="text"], input[type="email"], textarea, pre, code {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='24' viewBox='0 0 16 24'%3E%3Cpath d='M4 3h8M8 3v18M4 21h8' stroke='%23E8A33D' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 8 12, text !important;
 }

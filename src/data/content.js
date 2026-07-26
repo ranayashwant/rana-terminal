@@ -38,7 +38,7 @@ export const heroContent = {
   ],
   cta: {
     projects: '/projects',
-    resume:   '/resume.pdf',     /* served from public/ — drop in before launch */
+    resume:   '/RANA%20YASHWANT%20SINGH%20Resume.pdf',
     github:   'https://github.com/ranayashwant',
   },
 }
