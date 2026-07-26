@@ -1,20 +1,26 @@
-/* Footer.jsx — site-wide footer (spec §3.1): "BUILT BY RANA YASHWANT · {YEAR}" in mono. */
+/* Footer.jsx — site-wide footer (spec §3.1) with copy-to-clipboard email link. */
 
+import { useState } from 'react'
 import { contactInfo } from '../data/content.js'
 import '../styles/footer.css'
 
 function Footer() {
+  const [copied, setCopied] = useState(false)
+
+  function handleCopyEmail(e) {
+    e.preventDefault()
+    navigator.clipboard.writeText(contactInfo.email)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2400)
+  }
+
   return (
-    /* footer-outer: full-width border wrapper.
-       footer: max-width container for the actual content. */
     <div className="footer-outer">
       <footer className="footer">
-        {/* Copyright / build credit — mono, faint */}
         <span className="footer__text">
           BUILT BY RANA YASHWANT · {new Date().getFullYear()}
         </span>
 
-        {/* Quick links — GitHub + LinkedIn */}
         <nav className="footer__links" aria-label="Footer links">
           <a
             href={contactInfo.github}
@@ -32,12 +38,14 @@ function Footer() {
           >
             LINKEDIN ↗
           </a>
-          <a
-            href={`mailto:${contactInfo.email}`}
+          <button
+            onClick={handleCopyEmail}
             className="footer__link"
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+            title="Click to copy email address"
           >
-            EMAIL
-          </a>
+            {copied ? <span style={{ color: 'var(--color-green)' }}>$ COPIED TO CLIPBOARD</span> : 'EMAIL (COPY)'}
+          </button>
         </nav>
       </footer>
     </div>

@@ -20,6 +20,7 @@ import './styles/animations.css'
 
 /* Persistent layout component */
 import Header from './components/Header.jsx'
+import CommandPalette from './components/CommandPalette.jsx'
 
 /* Page components — one per route */
 import Home     from './pages/Home.jsx'
@@ -32,6 +33,7 @@ function App() {
     <BrowserRouter>
       {/* Header renders here — above Routes — so it never unmounts on navigation */}
       <Header />
+      <CommandPalette />
 
       {/* Routes renders only the matched page component.
           Everything inside here swaps when the URL changes. */}

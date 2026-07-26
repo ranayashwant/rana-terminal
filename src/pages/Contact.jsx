@@ -27,6 +27,7 @@ function Contact() {
   const [name,    setName]    = useState('')
   const [email,   setEmail]   = useState('')
   const [message, setMessage] = useState('')
+  const [copiedEmail, setCopiedEmail] = useState(false)
 
   /* Submission status: 'idle' | 'submitting' | 'success' | 'error' */
   const [status, setStatus] = useState('idle')
@@ -180,7 +181,18 @@ function Contact() {
 
         {/* ── Direct links row ── */}
         <div className="direct-links" aria-label="Direct contact links">
-          <a href={`mailto:${contactInfo.email}`}     className="direct-link">EMAIL ↗</a>
+          <button
+            onClick={(e) => {
+              e.preventDefault()
+              navigator.clipboard.writeText(contactInfo.email)
+              setCopiedEmail(true)
+              setTimeout(() => setCopiedEmail(false), 2400)
+            }}
+            className="direct-link"
+            style={{ cursor: 'pointer' }}
+          >
+            {copiedEmail ? '$ COPIED TO CLIPBOARD' : 'EMAIL (COPY)'}
+          </button>
           <a href={contactInfo.github}    target="_blank" rel="noopener noreferrer" className="direct-link">GITHUB ↗</a>
           <a href={contactInfo.linkedin}  target="_blank" rel="noopener noreferrer" className="direct-link">LINKEDIN ↗</a>
           <a href="/RANA%20YASHWANT%20SINGH%20Resume.pdf" className="direct-link" download="RANA_YASHWANT_SINGH_Resume.pdf">RESUME PDF ↓</a>
