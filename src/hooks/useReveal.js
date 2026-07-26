@@ -1,13 +1,11 @@
-/* useReveal.js — custom hook for scroll-triggered reveal animations.
-   Attaches an IntersectionObserver to a ref element. When the element enters
-   the viewport, adds the 'revealed' class which triggers the CSS transition
-   defined in animations.css.
-   
-   Usage in any component:
-     const ref = useReveal()
-     return <section ref={ref} className="my-section reveal"> */
+/* useReveal.js — GSAP & ScrollTrigger reveal hook with prefers-reduced-motion check (spec §6, Step 11).
+   Handles section fade-up, row-by-row staggers (80ms delay), and reduced-motion fallback. */
 
 import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export function useReveal(options = {}) {
   const ref = useRef(null)
@@ -16,31 +14,61 @@ export function useReveal(options = {}) {
     const el = ref.current
     if (!el) return
 
-    /* Check prefers-reduced-motion — if the user has requested less motion,
-       skip the animation and immediately mark the element as visible */
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) {
+    /* ── Reduced motion check: skip animations if user requested reduced motion ── */
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReduced) {
       el.classList.add('revealed')
+      gsap.set(el, { opacity: 1, y: 0 })
+      const children = el.querySelectorAll('.exp-row, .skill-row, .reveal')
+      if (children.length) gsap.set(children, { opacity: 1, y: 0 })
       return
     }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add('revealed')
-          /* Unobserve after first reveal — the animation only fires once */
-          observer.unobserve(el)
+    /* Base section reveal */
+    el.classList.add('revealed')
+    
+    const ctx = gsap.context(() => {
+      /* Main section fade + 16px slide up */
+      gsap.fromTo(
+        el,
+        { opacity: 0, y: 16 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: el,
+            start: options.start || 'top 85%',
+            toggleActions: 'play none none none',
+          },
         }
-      },
-      {
-        threshold:   options.threshold   ?? 0.1,    /* trigger when 10% of element is visible */
-        rootMargin:  options.rootMargin  ?? '0px 0px -40px 0px',  /* fire slightly before bottom edge */
-      }
-    )
+      )
 
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [options.threshold, options.rootMargin])
+      /* Row-by-row stagger (~80ms) for child rows if present */
+      const staggerItems = el.querySelectorAll(options.staggerSelector || '.exp-row, .skill-row')
+      if (staggerItems.length > 0) {
+        gsap.fromTo(
+          staggerItems,
+          { opacity: 0, y: 12 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.45,
+            stagger: 0.08, /* 80ms stagger per row */
+            ease: 'power1.out',
+            scrollTrigger: {
+              trigger: el,
+              start: options.start || 'top 80%',
+              toggleActions: 'play none none none',
+            },
+          }
+        )
+      }
+    }, ref)
+
+    return () => ctx.revert()
+  }, [options.start, options.staggerSelector])
 
   return ref
 }

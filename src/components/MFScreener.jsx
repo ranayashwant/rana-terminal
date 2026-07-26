@@ -6,10 +6,14 @@
    2. ER diagram — CSS-based schema visualisation (real schema, representative)
    3. Payload inspector — DevTools-styled JSON panel (sample response, labelled clearly) */
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { projects, mfscCompetitorTable, mfscSamplePayload } from '../data/content.js'
 import { useReveal } from '../hooks/useReveal.js'
 import '../styles/mfscreener.css'
+
+gsap.registerPlugin(ScrollTrigger)
 
 /* Find the MFSC project entry from content.js */
 const mfsc = projects.find(p => p.id === 'mfsc')
@@ -186,11 +190,39 @@ function MFScreener() {
   /* Toggle state: 'competitor' shows feature comparison, 'system' shows engine output */
   const [view, setView] = useState('competitor')
   const sectionRef = useReveal()
+  const detailGridRef = useRef(null)
+  const erDiagramRef = useRef(null)
 
   const [showModal, setShowModal] = useState(false)
 
+  /* GSAP ScrollTrigger: Pinned architecture walkthrough for ER diagram on desktop */
+  useEffect(() => {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReduced || window.innerWidth < 768) return
+
+    const grid = detailGridRef.current
+    const er = erDiagramRef.current
+
+    if (grid && er) {
+      const pinTrigger = ScrollTrigger.create({
+        trigger: grid,
+        start: 'top 20%',
+        end: 'bottom 80%',
+        pin: er,
+        pinSpacing: false,
+      })
+
+      return () => pinTrigger.kill()
+    }
+  }, [])
+
   return (
-    <section className="mfscreener reveal" ref={sectionRef} aria-label="MF Screener Flagship">
+    <section className="mfscreener reveal mfsc-card-draw" ref={sectionRef} aria-label="MF Screener Flagship">
+      {/* SVG Border Draw-On Animation Overlay */}
+      <svg className="border-draw-svg" aria-hidden="true">
+        <rect x="0" y="0" width="100%" height="100%" rx="0" ry="0" className="border-draw-rect" />
+      </svg>
+
       {/* Badge & Top-Right Screenshot Button */}
       <div className="mfsc-header-row">
         <div className="flagship-badge">FLAGSHIP PROJECT</div>
@@ -344,10 +376,10 @@ function MFScreener() {
       </div>
 
       {/* ── ER Diagram + Payload Inspector (side by side) ── */}
-      <div className="mfsc-detail-grid">
+      <div className="mfsc-detail-grid" ref={detailGridRef}>
 
-        {/* ER Diagram */}
-        <div>
+        {/* ER Diagram (pinned on desktop) */}
+        <div ref={erDiagramRef}>
           <div className="detail-panel__label">ER DIAGRAM — MYSQL SCHEMA</div>
           <ERDiagram />
         </div>
