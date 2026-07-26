@@ -157,3 +157,39 @@
   color: var(--color-bg);
   border-color: var(--color-text-primary);
 }
+
+/* ─── Responsive Media Queries ────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 3rem 1.25rem 2.5rem;
+  }
+
+  .hero__stats {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .hero__stat {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .hero__stat:last-child {
+    border-bottom: none;
+  }
+
+  .hero__stat + .hero__stat {
+    padding-left: 0;
+    border-left: none;
+  }
+
+  .hero__cta {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
