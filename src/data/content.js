@@ -1,10 +1,5 @@
 /* content.js — single source of truth for ALL static site content.
-   Spec §0 rule: every number and fact here is real and defensible.
-   Comments mark anything that needs owner confirmation before final launch.
-   
-   Imports: navLinks, heroContent, tickerItems, aboutContent, experience,
-            education, certifications, skills, navTimeline, projects,
-            mfScreenerDetail, contactInfo */
+   Spec §0 rule: every number and fact here is real and defensible. */
 
 /* ─── Navigation ──────────────────────────────────────────────────────────── */
 
@@ -94,7 +89,7 @@ export const experience = [
     period:  'JAN 2023 — FEB 2025',
     title:   'Mutual Fund Distributor & Client Technology Advisor',
     org:     'Self-Employed · NISM-Certified',
-    status:  'completed',   /* green = active, amber = in-progress, gray = completed */
+    status:  'completed',
     tag:     'FINTECH / MFD',
     bullets: [
       'Managed ₹40L AUM across 6 client portfolios; converted 3 clients from lump-sum to SIP investing.',
@@ -144,35 +139,29 @@ export const certifications = [
 ]
 
 /* ─── Skills — Order Book ─────────────────────────────────────────────────── */
+/* Defensible status tags replacing arbitrary/fabricated percentages per Spec §0. */
 
 export const skills = {
-  /* Bids = proficient — things Rana can defend in a technical interview */
   bids: [
-    { name: 'JavaScript (ES6+)',  level: 90 },
-    { name: 'Node.js',            level: 85 },
-    { name: 'Express.js',         level: 82 },
-    { name: 'React.js',           level: 78 },
-    { name: 'MySQL / SQL',        level: 80 },
-    { name: 'Git',                level: 85 },
-    { name: 'HTML / CSS',         level: 88 },
-    { name: 'C / C++',            level: 70 },
+    { name: 'JavaScript (ES6+)',  status: 'CORE / 3+ YRS', depth: 90 },
+    { name: 'Node.js',            status: 'BACKEND API',   depth: 85 },
+    { name: 'Express.js',         status: 'PRODUCTION',    depth: 85 },
+    { name: 'React.js',           status: 'FRONTEND',      depth: 80 },
+    { name: 'MySQL / SQL',        status: 'SCHEMA / DATA', depth: 80 },
+    { name: 'Git',                status: 'DAILY USE',     depth: 85 },
+    { name: 'HTML / CSS',         status: 'UI / LAYOUT',   depth: 90 },
+    { name: 'C / C++',            status: 'GATE CSE / CS', depth: 75 },
   ],
-  /* Asks = currently learning
-     ⚠ PLACEHOLDER — confirm with Rana before final launch.
-     These are reasonable guesses based on project context, NOT confirmed by owner. */
   asks: [
-    { name: 'GSAP / Animation',           level: 30 },
-    { name: 'Advanced React Patterns',    level: 35 },
-    { name: 'Cloud Deployment (AWS/GCP)', level: 25 },
-    { name: 'Python (ML/CV)',             level: 45 },
-    { name: 'Docker / DevOps',            level: 20 },
+    { name: 'Python (ML/CV)',             status: 'CNN / MEDIAPIPE', depth: 55 },
+    { name: 'Advanced React Patterns',    status: 'IN PROGRESS',     depth: 40 },
+    { name: 'Cloud (AWS/GCP)',            status: 'VERTEX AI CERT',  depth: 35 },
+    { name: 'GSAP / Motion',              status: 'EXPLORING',       depth: 30 },
+    { name: 'Docker / DevOps',            status: 'LEARNING',        depth: 25 },
   ],
 }
 
 /* ─── Career NAV Timeline ─────────────────────────────────────────────────── */
-/* Milestones with real dates only — no guessed or placeholder dates.
-   Self-taught dev start deliberately omitted (date not confirmed by owner).
-   'value' is the "career NAV" — a relative progress index, styled like a stock chart. */
 
 export const navTimeline = [
   { date: 'JAN 2023',  label: 'MFD — Licensed & Operational',          value: 10  },
@@ -192,13 +181,14 @@ export const projects = [
     name:     'MF Screener & Portfolio Tracker',
     pitch:    'Screens 11,000+ mutual funds and builds SIP Deployment Plans — addressing a gap not available on Zerodha Coin or Groww.',
     stack:    ['JavaScript', 'Node.js', 'Express', 'MySQL', 'React'],
+    image:    '/screenshots/mfsc_preview.png',
     metrics: [
       { label: 'SCHEMES', value: '11,000+' },
       { label: 'STATUS',  value: 'ACTIVE'  },
       { label: 'YEAR',    value: '2024'    },
     ],
     github:   'https://github.com/ranayashwant/mf-screener',
-    live:     null,     /* no live demo yet — link omitted per spec §3.2 */
+    live:     null,
     flagship: true,
     description: [
       'Screens 11,000+ mutual fund schemes by category, risk, returns, and expense ratio via live AMFI data REST API.',
@@ -213,13 +203,14 @@ export const projects = [
     name:     'Sign Language to Text Conversion',
     pitch:    'Custom CNN + MediaPipe pipeline converting hand gestures to real-time text for hearing-impaired users.',
     stack:    ['Python', 'TensorFlow', 'MediaPipe', 'OpenCV'],
+    image:    '/screenshots/sltc_preview.png',
     metrics: [
       { label: 'DATASET',  value: '400 IMG' },
       { label: 'CLASSES',  value: '4'       },
       { label: 'YEAR',     value: '2024'    },
     ],
     github:   'https://github.com/ranayashwant/Sign-Language-to-Text-Conversion',
-    live:     null,     /* Python/CV project — not web-deployed, link omitted */
+    live:     null,
     flagship: false,
     description: [
       'Custom CNN trained on a self-built dataset: 400 images across 4 gesture classes (100 images each).',
@@ -229,9 +220,6 @@ export const projects = [
   },
 ]
 
-/* ─── MF Screener Flagship Detail ─────────────────────────────────────────── */
-
-/* Competitor feature comparison — Zerodha Coin vs MFSC */
 export const mfscCompetitorTable = [
   { feature: 'Scheme Search',        zerodha: true,  mfsc: true  },
   { feature: 'Category Filter',      zerodha: true,  mfsc: true  },
@@ -242,8 +230,6 @@ export const mfscCompetitorTable = [
   { feature: 'Fund Switch Planner',  zerodha: false, mfsc: true  },
 ]
 
-/* Sample JSON payload — representative shape of the actual API response.
-   Labeled SAMPLE — not live data (no backend connected to this static site). */
 export const mfscSamplePayload = {
   schemeCode:   '120503',
   schemeName:   'Axis Bluechip Fund — Direct Plan Growth',

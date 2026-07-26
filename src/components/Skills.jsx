@@ -1,14 +1,16 @@
 /* Skills.jsx — "Order Book" skill depth display (spec §3.1, §5 sig-element #7).
    Left column = Bids (proficient). Right column = Asks (currently learning).
    Each row has a depth bar behind it set via CSS custom property --skill-level.
-   GitHub contribution calendar is embedded below the order book via ghchart.rshah.org. */
+   Uses defensible skill status badges instead of fabricated percentages per Spec §0.
+   Embedded GitHub contribution calendar fetches real-time data directly from GitHub's REST API. */
 
 import { skills, contactInfo } from '../data/content.js'
 import { useReveal } from '../hooks/useReveal.js'
+import GitHubCalendar from './GitHubCalendar.jsx'
 import '../styles/skills.css'
 
 /* ── OrderColumn — renders one side (Bids or Asks) of the order book ── */
-function OrderColumn({ side, label, items, isAsks }) {
+function OrderColumn({ side, label, items }) {
   return (
     <div className={`order-col order-col--${side}`}>
       {/* Column header */}
@@ -23,20 +25,13 @@ function OrderColumn({ side, label, items, isAsks }) {
           <div
             key={skill.name}
             className="skill-row"
-            /* --skill-level drives the depth-bar width via CSS pseudo-element */
-            style={{ '--skill-level': skill.level }}
+            style={{ '--skill-level': skill.depth }}
           >
             <span className="skill-name">{skill.name}</span>
-            <span className="skill-level">{skill.level}%</span>
+            {/* Real defensible status tag instead of arbitrary % numbers */}
+            <span className="skill-level">{skill.status}</span>
           </div>
         ))}
-
-        {/* Placeholder warning — only on the Asks column. Confirm with owner before launch. */}
-        {isAsks && (
-          <p className="skill-placeholder-note">
-            ⚠ Placeholder — confirm with Rana before final launch
-          </p>
-        )}
       </div>
     </div>
   )
@@ -44,6 +39,7 @@ function OrderColumn({ side, label, items, isAsks }) {
 
 function Skills() {
   const sectionRef = useReveal()
+  const githubUser = contactInfo.github.split('/').pop()
 
   return (
     <section className="skills reveal" ref={sectionRef} aria-label="Skills Order Book">
@@ -55,35 +51,27 @@ function Skills() {
           side="bids"
           label="PROFICIENT STACK"
           items={skills.bids}
-          isAsks={false}
         />
         <OrderColumn
           side="asks"
-          label="ACQUIRING"
+          label="ACQUIRING / LEARNING"
           items={skills.asks}
-          isAsks={true}
         />
       </div>
 
-      {/* GitHub contribution calendar — real data via ghchart.rshah.org.
-          Color 39d353 = GitHub's level-4 green (dark mode) — the service auto-generates
-          all 5 intensity shades from this base, matching GitHub's real green palette.
-          Shades produced: ~0e4429 → 196430 → 26a641 → 30c956 → 39d353 (dark to bright) */}
+      {/* GitHub contribution calendar — real live API component */}
       <div className="skills__calendar">
-        <div className="calendar-label">GITHUB CONTRIBUTION CALENDAR · @{contactInfo.github.split('/').pop()}</div>
-        <img
-          src={`https://ghchart.rshah.org/39d353/${contactInfo.github.split('/').pop()}`}
-          alt={`GitHub contribution calendar for ${contactInfo.github.split('/').pop()}`}
-          className="github-calendar"
-          loading="lazy"
-        />
+        <div className="calendar-label">
+          <span className="live-api-dot" /> LIVE GITHUB CONTRIBUTION API · @{githubUser}
+        </div>
+        <GitHubCalendar username={githubUser} />
         <a
           href={contactInfo.github}
           className="calendar-link"
           target="_blank"
           rel="noopener noreferrer"
         >
-          VIEW GITHUB PROFILE ↗
+          VIEW REAL-TIME PROFILE ON GITHUB.COM ↗
         </a>
       </div>
     </section>

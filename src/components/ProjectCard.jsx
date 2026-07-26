@@ -27,14 +27,20 @@ function ProjectCard({ project }) {
       </div>
 
       {/* ── Screenshot area (16:10) ── */}
-      {/* No screenshots available yet — placeholder until real PNGs are dropped in.
-          When adding a screenshot: replace the div with
-          <img src="/screenshots/mfsc.png" alt="..." className="..." /> */}
       <div className="card-screenshot">
-        <div className="card-screenshot-placeholder">
-          <span className="placeholder-ticker">{ticker}</span>
-          <span className="placeholder-name">screenshot pending</span>
-        </div>
+        {project.image ? (
+          <img
+            src={project.image}
+            alt={`${name} preview`}
+            className="card-screenshot-img"
+            loading="lazy"
+          />
+        ) : (
+          <div className="card-screenshot-placeholder">
+            <span className="placeholder-ticker">{ticker}</span>
+            <span className="placeholder-name">screenshot pending</span>
+          </div>
+        )}
       </div>
 
       {/* ── Card body ── */}

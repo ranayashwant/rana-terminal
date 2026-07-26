@@ -11,8 +11,10 @@
   border-top: 1px solid var(--color-hairline);
   border-bottom: 1px solid var(--color-hairline);
   padding: 0.6rem 0;
-  /* No cursor: this strip is purely decorative (aria-hidden in JSX) */
   user-select: none;
+  /* Smooth edge fade mask so items fade cleanly at the left and right screen boundaries */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
 }
 
 /* ─── Scrolling track ─────────────────────────────────────────────────────── */

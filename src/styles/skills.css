@@ -144,6 +144,20 @@
   color: var(--color-text-faint);
   margin-bottom: 1rem;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.live-api-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-green);
+  display: inline-block;
+  box-shadow: 0 0 6px rgba(62, 207, 142, 0.6);
+  animation: dot-pulse 2.4s ease-in-out infinite;
 }
 
 /* Wrap: holds the scroll container, total badge, and legend */
