@@ -1,8 +1,7 @@
-/* Header.jsx — sticky navigation bar with responsive mobile menu toggle. */
-
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { navLinks, heroContent } from '../data/content.js'
+import MarketTicker from './MarketTicker.jsx'
 import '../styles/header.css'
 
 function Header() {
@@ -10,6 +9,9 @@ function Header() {
 
   return (
     <header className="header" role="banner">
+      {/* Live Market Index Ticker Strip */}
+      <MarketTicker />
+
       <div className="header__inner">
 
         {/* Brand */}

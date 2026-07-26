@@ -5,6 +5,92 @@
      Left:  brand name (mono, links home)
      Right: nav links + status indicator (green dot + OPEN TO WORK) */
 
+/* ─── Live Market Ticker Bar ────────────────────────────────────────────────── */
+
+.market-bar {
+  background-color: #080A0C;
+  border-bottom: 1px solid var(--color-hairline);
+  padding: 0.25rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  user-select: none;
+}
+
+.market-bar__inner {
+  display: flex;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.market-bar__inner::-webkit-scrollbar { display: none; }
+
+.market-bar__label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-text-faint);
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.market-live-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--color-green);
+  box-shadow: 0 0 5px var(--color-green);
+}
+
+.market-bar__items {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: nowrap;
+}
+
+.market-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
+  transition: background-color 300ms ease;
+}
+
+.market-symbol {
+  color: var(--color-text-faint);
+  letter-spacing: 0.06em;
+}
+
+.market-price {
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.market-change--up {
+  color: var(--color-green);
+}
+
+.market-change--down {
+  color: var(--color-red);
+}
+
+.flash-green {
+  background-color: rgba(62, 207, 142, 0.18);
+}
+
+.flash-red {
+  background-color: rgba(229, 72, 77, 0.18);
+}
+
 /* ─── Outer shell ─────────────────────────────────────────────────────────── */
 
 .header {
