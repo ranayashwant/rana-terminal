@@ -1,0 +1,89 @@
+/* resume.css — terminal-boot animation loading the resume (spec §3.4).
+   Boot sequence types out line-by-line; then the download button appears. */
+
+.resume-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 4rem 2rem 5rem;
+  font-family: var(--font-mono);
+}
+
+/* Boot terminal window */
+.resume-terminal {
+  border: 1px solid var(--color-hairline);
+  background-color: var(--color-panel);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.terminal-line {
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  line-height: 1.9;
+  color: var(--color-text-muted);
+  min-height: 1.6rem;
+}
+
+.terminal-line--prompt { color: var(--color-amber); }
+.terminal-line--ok     { color: var(--color-green); }
+.terminal-line--info   { color: var(--color-text-faint); }
+
+.terminal-cursor {
+  display: inline-block;
+  width: 0.55rem;
+  height: 1rem;
+  background-color: var(--color-amber);
+  vertical-align: middle;
+  animation: block-blink 0.75s step-end infinite;
+  margin-left: 2px;
+}
+
+@keyframes block-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Download button — CLI command style, not a generic button (spec §3.4) */
+.resume-download-wrap {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.resume-download-wrap.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.resume-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--color-amber);
+  border: 1px solid var(--color-amber);
+  background: transparent;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.resume-download-btn:hover {
+  background-color: var(--color-amber);
+  color: var(--color-bg);
+}
+
+.resume-note {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-faint);
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .resume-page { padding: 3rem 1rem; }
+}

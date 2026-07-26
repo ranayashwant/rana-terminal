@@ -1,0 +1,199 @@
+/* experience.css — Work experience rows (spec §3.1).
+   Layout: hairline-bordered rows with period (mono) · title (Space Grotesk) 
+   · org (Inter muted) · description bullets · status dot + tag.
+   MFD experience gets equal visual weight to dev work (spec §3.1). */
+
+/* ─── Section wrapper ─────────────────────────────────────────────────────── */
+
+.experience {
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-top: 1px solid var(--color-hairline);
+}
+
+/* ─── Individual experience row ───────────────────────────────────────────── */
+
+.exp-row {
+  display: grid;
+  grid-template-columns: 14rem 1fr;
+  gap: 0 2.5rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--color-hairline);
+  /* Row highlight sweep on hover — subtle bg lighten (spec §6) */
+  transition: background-color 200ms ease;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
+.exp-row:first-of-type {
+  border-top: 1px solid var(--color-hairline);
+}
+
+.exp-row:hover {
+  background-color: rgba(255,255,255,0.02);
+}
+
+/* ─── Left column: period ─────────────────────────────────────────────────── */
+
+.exp-period {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-faint);
+  padding-top: 0.3rem;    /* align with title baseline */
+  line-height: 1.4;
+}
+
+/* ─── Right column: content ───────────────────────────────────────────────── */
+
+.exp-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.exp-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.exp-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+
+.exp-org {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+/* Status dot + tag — right-aligned in the header row */
+.exp-tag-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Status dot — green = active, gray = completed (spec §5) */
+.exp-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.exp-dot--active    { background-color: var(--color-green); animation: dot-pulse 2.4s ease-in-out infinite; }
+.exp-dot--completed { background-color: var(--color-text-faint); }
+.exp-dot--progress  { background-color: var(--color-amber); animation: dot-pulse 2.4s ease-in-out infinite; }
+
+@keyframes dot-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+/* Tag pill — mono, hairline border */
+.exp-tag {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: var(--color-text-faint);
+  border: 1px solid var(--color-hairline);
+  padding: 0.2rem 0.55rem;
+}
+
+/* ─── Bullet list ─────────────────────────────────────────────────────────── */
+
+.exp-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.exp-bullet {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  padding-left: 1rem;
+  position: relative;
+}
+
+/* Custom bullet — amber dash instead of generic disc */
+.exp-bullet::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--color-amber);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .exp-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .exp-period {
+    color: var(--color-text-muted);
+  }
+}
+
+/* ─── Certifications block ────────────────────────────────────────────────── */
+
+.exp-certs {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--color-hairline);
+}
+
+.exp-cert-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.cert-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--color-amber);
+  border: 1px solid var(--color-amber);
+  padding: 0.2rem 0.5rem;
+  white-space: nowrap;
+  min-width: 4.5rem;
+  text-align: center;
+}
+
+.cert-name {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+}
+
+.cert-issuer {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-faint);
+  margin-top: 0.15rem;
+}
+

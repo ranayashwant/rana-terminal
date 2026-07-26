@@ -1,0 +1,267 @@
+/* mfscreener.css — Flagship MF Screener section (spec §4, §7).
+   Full-width expanded treatment: competitor/system toggle + ER diagram + payload inspector. */
+
+/* ─── Flagship wrapper ────────────────────────────────────────────────────── */
+
+.mfscreener {
+  margin-top: 4rem;
+  border: 1px solid var(--color-hairline);
+  background-color: var(--color-panel);
+  padding: 2.5rem;
+}
+
+.flagship-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  color: var(--color-amber);
+  border: 1px solid var(--color-amber);
+  padding: 0.2rem 0.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.flagship-badge::before {
+  content: '★';
+  font-size: 0.55rem;
+}
+
+.mfsc-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.mfsc-pitch {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+  max-width: 640px;
+  margin-bottom: 0.75rem;
+}
+
+.mfsc-description {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 2rem;
+}
+
+.mfsc-bullet {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.mfsc-bullet::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--color-amber);
+  font-family: var(--font-mono);
+}
+
+/* ─── Toggle button group ─────────────────────────────────────────────────── */
+
+.mfsc-toggle-group {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1.5rem;
+  width: fit-content;
+}
+
+.mfsc-toggle-btn {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--color-hairline);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+
+.mfsc-toggle-btn + .mfsc-toggle-btn { border-left: none; }
+
+.mfsc-toggle-btn--active {
+  background-color: var(--color-amber);
+  color: var(--color-bg);
+  border-color: var(--color-amber);
+}
+
+/* ─── Competitor / System view panels ─────────────────────────────────────── */
+
+.mfsc-view { display: none; }
+.mfsc-view--active { display: block; }
+
+/* Competitor comparison table */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.compare-table th {
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--color-hairline);
+  color: var(--color-text-faint);
+  letter-spacing: 0.1em;
+  font-size: 0.65rem;
+  text-align: left;
+  font-weight: 400;
+}
+
+.compare-table th.th-mfsc { color: var(--color-amber); }
+
+.compare-table td {
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--color-hairline);
+  color: var(--color-text-muted);
+}
+
+/* Check / cross icons */
+.check  { color: var(--color-green); }
+.cross  { color: var(--color-red);   }
+
+/* Highlight rows where MFSC has the advantage */
+.compare-table tr.advantage td:last-child {
+  background-color: rgba(62,207,142,0.05);
+}
+
+/* System view — SIP Deployment Plan output */
+.system-output {
+  border: 1px solid var(--color-hairline);
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.output-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.output-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--color-text-faint);
+}
+
+.output-value {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--color-amber);
+  font-weight: 500;
+}
+
+.output-note {
+  grid-column: 1 / -1;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--color-text-faint);
+  font-style: italic;
+}
+
+/* ─── Two-column detailed layout (ER diagram + Payload inspector) ─────────── */
+
+.mfsc-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2.5rem;
+  border-top: 1px solid var(--color-hairline);
+  padding-top: 2.5rem;
+}
+
+.detail-panel__label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--color-text-faint);
+  margin-bottom: 1rem;
+}
+
+/* ─── ER Diagram ──────────────────────────────────────────────────────────── */
+
+.er-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--color-hairline);
+  background: var(--color-bg);
+  padding: 0.5rem;
+}
+
+/* ─── Payload Inspector ───────────────────────────────────────────────────── */
+
+.payload-inspector {
+  border: 1px solid var(--color-hairline);
+  overflow: hidden;
+}
+
+.payload-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background-color: color-mix(in srgb, var(--color-hairline) 30%, var(--color-panel));
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.payload-title {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--color-text-faint);
+}
+
+.payload-badge {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  color: var(--color-green);
+  border: 1px solid var(--color-green);
+  padding: 0.1rem 0.4rem;
+}
+
+.payload-body {
+  padding: 1rem;
+  overflow-x: auto;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+/* JSON syntax highlighting — applied via inline className props */
+.json-block {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+  white-space: pre;
+  margin: 0;
+}
+
+.json-key    { color: var(--color-text-primary); }
+.json-string { color: var(--color-green); }
+.json-number { color: var(--color-amber); }
+.json-bool   { color: #B39DDB; }
+
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .mfscreener { padding: 1.5rem; }
+  .mfsc-detail-grid { grid-template-columns: 1fr; }
+  .system-output { grid-template-columns: 1fr; }
+}

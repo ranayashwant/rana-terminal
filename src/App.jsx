@@ -13,6 +13,11 @@
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
+/* Global animation utilities — .reveal / .revealed / stagger delays.
+   Must be imported here (not in individual components) so the classes
+   are available before any component's IntersectionObserver fires. */
+import './styles/animations.css'
+
 /* Persistent layout component */
 import Header from './components/Header.jsx'
 

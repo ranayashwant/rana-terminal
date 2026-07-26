@@ -1,0 +1,274 @@
+/* projects.css — Project grid, window-chrome cards, and MF Screener flagship styles.
+   Used by Projects.jsx page and by the projects-preview section on Home.jsx. */
+
+/* ─── Page wrapper ────────────────────────────────────────────────────────── */
+
+.projects-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+}
+
+/* ─── Projects grid ───────────────────────────────────────────────────────── */
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* ─── Window-chrome card wrapper (spec §3.2) ──────────────────────────────── */
+/* Mimics a code-editor tab: three dots + mono path, screenshot inside */
+
+.project-card {
+  border: 1px solid var(--color-hairline);
+  background-color: var(--color-panel);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: border-color 200ms ease, transform 200ms ease;
+  cursor: default;
+}
+
+.project-card:hover {
+  border-color: var(--color-amber);
+}
+
+/* Window chrome bar — three dots + fake file path */
+.card-chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1rem;
+  background-color: color-mix(in srgb, var(--color-hairline) 30%, var(--color-panel));
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.chrome-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.chrome-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.chrome-dot--red    { background-color: #E5484D; }
+.chrome-dot--amber  { background-color: #E8A33D; }
+.chrome-dot--green  { background-color: #3ECF8E; }
+
+.chrome-path {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: var(--color-text-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Screenshot area — fixed 16:10 aspect ratio, object-fit: cover (spec §3.2) */
+.card-screenshot {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background-color: var(--color-bg);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Placeholder when no screenshot is available */
+  position: relative;
+}
+
+.card-screenshot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Placeholder content when screenshot is not yet available */
+.card-screenshot-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  gap: 0.5rem;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(255,255,255,0.01) 10px,
+    rgba(255,255,255,0.01) 20px
+  );
+}
+
+.placeholder-ticker {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-amber);
+  opacity: 0.25;
+  letter-spacing: 0.08em;
+}
+
+.placeholder-name {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-text-faint);
+  letter-spacing: 0.1em;
+}
+
+/* ─── Card body ───────────────────────────────────────────────────────────── */
+
+.card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+}
+
+.card-ticker {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  color: var(--color-amber);
+}
+
+.card-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+
+.card-pitch {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+/* Stack tags — mono pills */
+.card-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+}
+
+.stack-tag {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-faint);
+  border: 1px solid var(--color-hairline);
+  padding: 0.2rem 0.55rem;
+}
+
+/* ─── Metrics row — slides in on hover (spec §6) ─────────────────────────── */
+
+.card-metrics {
+  display: flex;
+  gap: 0;
+  border-top: 1px solid var(--color-hairline);
+  margin-top: auto;        /* push to bottom of card */
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 250ms ease, opacity 250ms ease;
+  opacity: 0;
+}
+
+.project-card:hover .card-metrics {
+  max-height: 60px;
+  opacity: 1;
+}
+
+.card-metric {
+  flex: 1;
+  padding: 0.6rem 0.75rem;
+  border-right: 1px solid var(--color-hairline);
+}
+
+.card-metric:last-child { border-right: none; }
+
+.metric-label {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  color: var(--color-text-faint);
+  display: block;
+}
+
+.metric-value {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-amber);
+  display: block;
+  margin-top: 0.15rem;
+}
+
+/* ─── Card links ──────────────────────────────────────────────────────────── */
+
+.card-links {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.85rem 1.25rem;
+  border-top: 1px solid var(--color-hairline);
+}
+
+.card-link {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  border: 1px solid var(--color-hairline);
+  padding: 0.35rem 0.8rem;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+
+.card-link:hover {
+  border-color: var(--color-amber);
+  color: var(--color-amber);
+}
+
+/* ─── Projects preview section (on Home page) ─────────────────────────────── */
+
+.projects-preview {
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-top: 1px solid var(--color-hairline);
+}
+
+.preview-footer {
+  margin-top: 2rem;
+  text-align: right;
+}
+
+.preview-link {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--color-amber);
+  text-decoration: none;
+  transition: opacity 150ms ease;
+}
+
+.preview-link:hover { opacity: 0.7; }
+
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}

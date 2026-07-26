@@ -1,0 +1,70 @@
+/* ticker.css — full-width auto-scrolling ticker strip.
+   Technique: the track contains all items TWICE so when it scrolls -50%,
+   the second copy is perfectly aligned with where the first started → seamless loop.
+   Animation runs in CSS only — no JS scroll logic needed (spec §4). */
+
+/* ─── Outer container ─────────────────────────────────────────────────────── */
+
+.ticker {
+  overflow: hidden;                        /* clips the track content to the strip width */
+  background-color: var(--color-panel);
+  border-top: 1px solid var(--color-hairline);
+  border-bottom: 1px solid var(--color-hairline);
+  padding: 0.6rem 0;
+  /* No cursor: this strip is purely decorative (aria-hidden in JSX) */
+  user-select: none;
+}
+
+/* ─── Scrolling track ─────────────────────────────────────────────────────── */
+
+.ticker__track {
+  display: flex;                   /* items in a single horizontal row */
+  width: max-content;              /* track is as wide as its content, not clamped to viewport */
+  gap: 0;
+  animation: ticker-scroll 40s linear infinite;
+  will-change: transform;          /* GPU layer hint for smooth animation */
+}
+
+/* Pause on hover — useful if a user wants to read a specific item */
+.ticker:hover .ticker__track {
+  animation-play-state: paused;
+}
+
+/* ─── Individual item ─────────────────────────────────────────────────────── */
+
+.ticker__item {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  padding: 0 2.5rem;       /* horizontal breathing room between items */
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+/* Diamond separator between ticker items — amber, per signal-color rule */
+.ticker__sep {
+  color: var(--color-amber);
+  font-size: 0.4rem;
+  flex-shrink: 0;
+}
+
+/* ─── Keyframe: scroll track from 0 to -50% ──────────────────────────────── */
+/* -50% works because the content is doubled — so -50% puts the SECOND copy
+   exactly where the FIRST copy started, making the loop seamless. */
+
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .ticker__item {
+    font-size: 0.65rem;
+    padding: 0 1.5rem;
+  }
+}

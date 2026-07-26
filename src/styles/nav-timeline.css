@@ -1,0 +1,83 @@
+/* nav-timeline.css — Career NAV timeline chart (spec §5 sig-element #2).
+   SVG line chart styled like a mutual fund NAV chart, with milestone labels.
+   The SVG path gets a stroke-dashoffset draw-on animation when it enters view. */
+
+/* ─── Section wrapper ─────────────────────────────────────────────────────── */
+
+.nav-timeline {
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-top: 1px solid var(--color-hairline);
+}
+
+.nav-timeline__intro {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  max-width: 520px;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+/* ─── SVG container ───────────────────────────────────────────────────────── */
+
+.nav-timeline__chart-wrap {
+  width: 100%;
+  overflow-x: auto;          /* scroll on narrow screens */
+  border: 1px solid var(--color-hairline);
+  background-color: var(--color-panel);
+  padding: 1rem;
+}
+
+.nav-timeline__svg {
+  width: 100%;
+  min-width: 560px;          /* don't let the chart collapse below readable size */
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+/* ─── SVG element styles (applied via className on SVG elements) ──────────── */
+
+/* Draw-on animation for the NAV line — only fires once when section enters view */
+.nav-line {
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  transition: stroke-dashoffset 2s ease-out;
+}
+
+/* When the parent section gets .revealed, animate the line */
+.revealed .nav-line {
+  stroke-dashoffset: 0;
+}
+
+/* Gradient fill area under the line — fades to transparent at bottom */
+.nav-area {
+  opacity: 0;
+  transition: opacity 1.5s ease 0.3s;  /* slight delay after line starts drawing */
+}
+
+.revealed .nav-area {
+  opacity: 1;
+}
+
+/* Milestone dots */
+.nav-dot {
+  fill: var(--color-panel);
+  stroke: var(--color-amber);
+  stroke-width: 2;
+  transition: fill 150ms ease;
+}
+
+.nav-dot:hover { fill: var(--color-amber); }
+
+/* ─── Axis ─────────────────────────────────────────────────────────────────── */
+
+/* Axis labels are rendered as SVG <text> — styled inline in JSX with font tokens */
+
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .nav-timeline { padding: 3rem 1rem; }
+}

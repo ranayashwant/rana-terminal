@@ -1,0 +1,179 @@
+/* skills.css — "Order Book" skill display (spec §3.1, §5 sig-element #7).
+   Two-column market-depth layout: Bids (proficient) left, Asks (acquiring) right.
+   Depth bars behind each row visualise skill level like bid/ask quantity bars in L2. */
+
+/* ─── Section wrapper ─────────────────────────────────────────────────────── */
+
+.skills {
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-top: 1px solid var(--color-hairline);
+}
+
+/* ─── Order book grid ─────────────────────────────────────────────────────── */
+
+.skills__book {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--color-hairline);
+  margin-bottom: 3rem;
+}
+
+/* ─── Column header ───────────────────────────────────────────────────────── */
+
+.order-col__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.order-col--bids .order-col__header {
+  border-right: 1px solid var(--color-hairline);
+}
+
+.order-col__label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--color-text-faint);
+}
+
+/* BUY/SELL side color indicators matching trading convention */
+.order-col--bids .order-col__side { color: var(--color-green); }
+.order-col--asks .order-col__side { color: var(--color-amber); }
+
+.order-col__side {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+}
+
+/* ─── Skill rows ──────────────────────────────────────────────────────────── */
+
+.order-col--bids .order-rows { border-right: 1px solid var(--color-hairline); }
+
+.skill-row {
+  position: relative;             /* context for the depth bar pseudo-element */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-hairline) 50%, transparent);
+  overflow: hidden;
+  transition: background-color 150ms ease;
+}
+
+.skill-row:last-child { border-bottom: none; }
+
+.skill-row:hover { background-color: rgba(255,255,255,0.025); }
+
+/* Depth bar — fills behind the row from left (bids) or right (asks).
+   Width is set via inline --skill-level CSS custom property. */
+.skill-row::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: calc(var(--skill-level, 0) * 1%);
+  pointer-events: none;
+  transition: width 0.8s ease;
+}
+
+.order-col--bids .skill-row::before {
+  left: 0;
+  background: linear-gradient(90deg, rgba(62,207,142,0.08) 0%, transparent 100%);
+}
+
+.order-col--asks .skill-row::before {
+  right: 0;
+  background: linear-gradient(270deg, rgba(232,163,61,0.08) 0%, transparent 100%);
+}
+
+/* Skill name */
+.skill-name {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--color-text-primary);
+  position: relative; /* above the depth bar pseudo-element */
+  z-index: 1;
+}
+
+/* Level percentage — right-aligned, color-coded by side */
+.order-col--bids .skill-level { color: var(--color-green); }
+.order-col--asks .skill-level { color: var(--color-amber); }
+
+.skill-level {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  position: relative;
+  z-index: 1;
+  letter-spacing: 0.04em;
+}
+
+/* "Placeholder" badge — marks the Asks column with a visible flag
+   that these skills are not confirmed by owner */
+.skill-placeholder-note {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-faint);
+  padding: 0.4rem 1rem;
+  border-top: 1px solid var(--color-hairline);
+  font-style: italic;
+}
+
+/* ─── GitHub Calendar ─────────────────────────────────────────────────────── */
+
+.skills__calendar {
+  margin-top: 2rem;
+}
+
+.calendar-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--color-text-faint);
+  margin-bottom: 1rem;
+}
+
+.github-calendar {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-hairline);
+  display: block;
+  /* filter to nudge the chart into the site's color temperature */
+  filter: brightness(0.9) saturate(1.1);
+}
+
+.calendar-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-faint);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.calendar-link:hover { color: var(--color-amber); }
+
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .skills__book {
+    grid-template-columns: 1fr;
+  }
+
+  .order-col--bids {
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .order-col--bids .order-rows { border-right: none; }
+  .order-col--bids .order-col__header { border-right: none; }
+}

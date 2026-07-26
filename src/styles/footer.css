@@ -1,0 +1,48 @@
+/* footer.css — simple one-line terminal footer (spec §3.1) */
+
+.footer {
+  border-top: 1px solid var(--color-hairline);
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer__text {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--color-text-faint);
+}
+
+.footer__links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer__link {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--color-text-faint);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.footer__link:hover { color: var(--color-amber); }
+
+/* Full-width border on the wrapper, centered content inside */
+.footer-outer {
+  border-top: 1px solid var(--color-hairline);
+  margin-top: 5rem;
+}
+
+@media (max-width: 640px) {
+  .footer {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}

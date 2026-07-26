@@ -1,0 +1,45 @@
+/* animations.css — global scroll-reveal utility classes.
+   Imported in App.jsx so it's available site-wide.
+   Works with useReveal.js hook: elements start with .reveal,
+   get .revealed added by the IntersectionObserver when they enter the viewport.
+
+   Stagger delays (.reveal--d1 through .reveal--d5) let sibling rows
+   appear sequentially — like a system printing output line by line (spec §6). */
+
+/* ─── Base reveal state ───────────────────────────────────────────────────── */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity  0.55s ease,
+    transform 0.55s ease;
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Stagger delays — for row-by-row list reveals ───────────────────────── */
+/* Used on siblings: className="reveal reveal--d1", "--d2", etc. */
+
+.reveal--d1 { transition-delay: 0.08s; }
+.reveal--d2 { transition-delay: 0.16s; }
+.reveal--d3 { transition-delay: 0.24s; }
+.reveal--d4 { transition-delay: 0.32s; }
+.reveal--d5 { transition-delay: 0.40s; }
+.reveal--d6 { transition-delay: 0.48s; }
+
+/* ─── Respect prefers-reduced-motion ─────────────────────────────────────── */
+/* The JS hook also checks this and skips the observer entirely.
+   This CSS rule is a fallback for any elements that bypass the hook. */
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal.revealed {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

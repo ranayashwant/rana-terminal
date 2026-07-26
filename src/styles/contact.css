@@ -1,0 +1,249 @@
+/* contact.css — "Place an Order" trade-ticket contact page (spec §3.3).
+   BUY (hire) and WATCHLIST (LinkedIn refer) buttons, then real working form. */
+
+/* ─── Page wrapper ────────────────────────────────────────────────────────── */
+
+.contact-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+}
+
+/* ─── Trade ticket header ─────────────────────────────────────────────────── */
+
+.ticket-header {
+  border: 1px solid var(--color-hairline);
+  background-color: var(--color-panel);
+  padding: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.ticket-symbol-row {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.ticket-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.ticket-field-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  color: var(--color-text-faint);
+}
+
+.ticket-field-value {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+.ticket-field-value--amber { color: var(--color-amber); }
+.ticket-field-value--green { color: var(--color-green); }
+
+/* ─── Action buttons — BUY / WATCHLIST ───────────────────────────────────── */
+
+.ticket-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* BUY — primary amber filled button (spec §3.3) */
+.btn-buy {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  padding: 0.75rem 2rem;
+  border-radius: 0;
+  border: none;
+  background-color: var(--color-amber);
+  color: var(--color-bg);
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 150ms ease, background-color 100ms ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-buy:hover    { opacity: 0.88; }
+.btn-buy:active   { background-color: var(--color-text-primary); }
+
+/* WATCHLIST — secondary outlined (spec §3.3) */
+.btn-watchlist {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0;
+  border: 1px solid var(--color-hairline);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: border-color 150ms ease, color 150ms ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-watchlist:hover {
+  border-color: var(--color-amber);
+  color: var(--color-amber);
+}
+
+/* ─── Contact form ────────────────────────────────────────────────────────── */
+
+.contact-form-wrap {
+  border: 1px solid var(--color-hairline);
+  background-color: var(--color-panel);
+  padding: 2rem;
+}
+
+.form-label-row {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--color-text-faint);
+  margin-bottom: 1.5rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-field--full {
+  grid-column: 1 / -1;
+}
+
+.form-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--color-text-faint);
+}
+
+/* Input / textarea — hairline border, dark bg */
+.form-input,
+.form-textarea {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-hairline);
+  border-radius: 0;        /* sharp corners per spec §1.3 */
+  padding: 0.65rem 0.85rem;
+  outline: none;
+  transition: border-color 150ms ease;
+  width: 100%;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: var(--color-amber);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 130px;
+  line-height: 1.6;
+}
+
+/* Submit button — same style as primary CTA */
+.form-submit {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  padding: 0.7rem 1.75rem;
+  border-radius: 0;
+  border: 1px solid var(--color-amber);
+  background: transparent;
+  color: var(--color-amber);
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+  margin-top: 0.5rem;
+}
+
+.form-submit:hover {
+  background-color: var(--color-amber);
+  color: var(--color-bg);
+}
+
+.form-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Success / error states */
+.form-success,
+.form-error {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+  border: 1px solid;
+}
+
+.form-success {
+  color: var(--color-green);
+  border-color: var(--color-green);
+  background: rgba(62,207,142,0.05);
+}
+
+.form-error {
+  color: var(--color-red);
+  border-color: var(--color-red);
+  background: rgba(229,72,77,0.05);
+}
+
+/* ─── Direct links row ────────────────────────────────────────────────────── */
+
+.direct-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-hairline);
+}
+
+.direct-link {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  border: 1px solid var(--color-hairline);
+  padding: 0.45rem 0.9rem;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+
+.direct-link:hover {
+  border-color: var(--color-amber);
+  color: var(--color-amber);
+}
+
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .ticket-symbol-row { gap: 1rem; }
+}
