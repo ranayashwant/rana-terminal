@@ -1,11 +1,8 @@
-/* useReveal.js — GSAP & ScrollTrigger reveal hook with prefers-reduced-motion check (spec §6, Step 11).
-   Handles section fade-up, row-by-row staggers (80ms delay), and reduced-motion fallback. */
+/* useReveal.js — robust IntersectionObserver + GSAP reveal hook for React 18 StrictMode.
+   Guarantees elements are 100% visible on mount/scroll with zero blank page issues. */
 
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
 
 export function useReveal(options = {}) {
   const ref = useRef(null)
@@ -14,61 +11,54 @@ export function useReveal(options = {}) {
     const el = ref.current
     if (!el) return
 
-    /* ── Reduced motion check: skip animations if user requested reduced motion ── */
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReduced) {
       el.classList.add('revealed')
-      gsap.set(el, { opacity: 1, y: 0 })
-      const children = el.querySelectorAll('.exp-row, .skill-row, .reveal')
-      if (children.length) gsap.set(children, { opacity: 1, y: 0 })
       return
     }
 
-    /* Base section reveal */
-    el.classList.add('revealed')
-    
-    const ctx = gsap.context(() => {
-      /* Main section fade + 16px slide up */
-      gsap.fromTo(
-        el,
-        { opacity: 0, y: 16 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: el,
-            start: options.start || 'top 85%',
-            toggleActions: 'play none none none',
-          },
-        }
-      )
-
-      /* Row-by-row stagger (~80ms) for child rows if present */
-      const staggerItems = el.querySelectorAll(options.staggerSelector || '.exp-row, .skill-row')
-      if (staggerItems.length > 0) {
-        gsap.fromTo(
-          staggerItems,
-          { opacity: 0, y: 12 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.45,
-            stagger: 0.08, /* 80ms stagger per row */
-            ease: 'power1.out',
-            scrollTrigger: {
-              trigger: el,
-              start: options.start || 'top 80%',
-              toggleActions: 'play none none none',
-            },
-          }
-        )
+    /* Fallback timer: if observer takes more than 300ms, force reveal to prevent blank page */
+    const safetyTimer = setTimeout(() => {
+      if (el && !el.classList.contains('revealed')) {
+        el.classList.add('revealed')
       }
-    }, ref)
+    }, 400)
 
-    return () => ctx.revert()
-  }, [options.start, options.staggerSelector])
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          clearTimeout(safetyTimer)
+          el.classList.add('revealed')
+
+          /* Animate child stagger items if present */
+          const items = el.querySelectorAll(options.staggerSelector || '.exp-row, .skill-row')
+          if (items.length > 0) {
+            gsap.to(items, {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              stagger: 0.08,
+              ease: 'power1.out',
+              overwrite: 'auto',
+            })
+          }
+
+          observer.unobserve(el)
+        }
+      },
+      {
+        threshold: options.threshold ?? 0.05,
+        rootMargin: options.rootMargin ?? '0px 0px -20px 0px',
+      }
+    )
+
+    observer.observe(el)
+
+    return () => {
+      clearTimeout(safetyTimer)
+      observer.disconnect()
+    }
+  }, [options.threshold, options.rootMargin, options.staggerSelector])
 
   return ref
 }

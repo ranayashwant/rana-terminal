@@ -19,6 +19,7 @@ import SLTCDetail    from '../components/SLTCDetail.jsx'
 import Skills        from '../components/Skills.jsx'
 import NAVTimeline   from '../components/NAVTimeline.jsx'
 import Footer        from '../components/Footer.jsx'
+import { useReveal } from '../hooks/useReveal.js'
 import { useDocumentTitle } from '../hooks/useDocumentTitle.js'
 import '../styles/projects.css'
 

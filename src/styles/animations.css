@@ -1,39 +1,23 @@
 /* animations.css — global scroll-reveal utility classes.
-   Imported in App.jsx so it's available site-wide.
    Works with useReveal.js hook: elements start with .reveal,
-   get .revealed added by the IntersectionObserver when they enter the viewport.
-
-   Stagger delays (.reveal--d1 through .reveal--d5) let sibling rows
-   appear sequentially — like a system printing output line by line (spec §6). */
-
-/* ─── Base reveal state ───────────────────────────────────────────────────── */
+   get .revealed added by IntersectionObserver / GSAP when entering viewport. */
 
 .reveal {
   opacity: 0;
   transform: translateY(16px);
-  transition:
-    opacity  0.55s ease,
-    transform 0.55s ease;
+  transition: opacity 0.55s ease, transform 0.55s ease;
+  will-change: opacity, transform;
 }
 
-.reveal.revealed {
+.reveal.revealed,
+.revealed .reveal,
+.revealed .exp-row,
+.revealed .skill-row {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* When a parent .reveal becomes .revealed, also show its child .reveal elements.
-   This is the correct pattern when only the parent has an IntersectionObserver ref
-   and child rows are staggered via CSS delay only (no per-row JS observer needed).
-   Stagger delays on .reveal--d1/d2/etc. still fire because transition-delay applies
-   the moment the CSS state changes. */
-.revealed .reveal {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ─── Stagger delays — for row-by-row list reveals ───────────────────────── */
-/* Used on siblings: className="reveal reveal--d1", "--d2", etc. */
-
+/* Stagger delays for sequential row reveals */
 .reveal--d1 { transition-delay: 0.08s; }
 .reveal--d2 { transition-delay: 0.16s; }
 .reveal--d3 { transition-delay: 0.24s; }
@@ -41,15 +25,13 @@
 .reveal--d5 { transition-delay: 0.40s; }
 .reveal--d6 { transition-delay: 0.48s; }
 
-/* ─── Respect prefers-reduced-motion ─────────────────────────────────────── */
-/* The JS hook also checks this and skips the observer entirely.
-   This CSS rule is a fallback for any elements that bypass the hook. */
-
+/* Respect prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   .reveal,
-  .reveal.revealed {
-    opacity: 1;
-    transform: none;
-    transition: none;
+  .reveal.revealed,
+  .revealed .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }
