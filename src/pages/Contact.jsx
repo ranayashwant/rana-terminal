@@ -11,6 +11,7 @@
 import { useState } from 'react'
 import { contactInfo } from '../data/content.js'
 import { useReveal } from '../hooks/useReveal.js'
+import { useDocumentTitle } from '../hooks/useDocumentTitle.js'
 import Footer from '../components/Footer.jsx'
 import '../styles/contact.css'
 
@@ -19,6 +20,7 @@ import '../styles/contact.css'
 const FORMSPREE_FORM_ID = 'YOUR_FORM_ID'
 
 function Contact() {
+  useDocumentTitle('Rana Yashwant — Contact & Trade Ticket')
   const sectionRef = useReveal()
 
   /* Controlled form state */

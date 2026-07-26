@@ -9,6 +9,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useReveal } from '../hooks/useReveal.js'
+import { useDocumentTitle } from '../hooks/useDocumentTitle.js'
 import Footer from '../components/Footer.jsx'
 import '../styles/resume.css'
 
@@ -30,6 +31,7 @@ const LINE_INTERVAL_MS  = 420   /* ms between each new boot line */
 const DOWNLOAD_DELAY_MS = 320   /* small pause after last line before button appears */
 
 function Resume() {
+  useDocumentTitle('Rana Yashwant — Resume PDF')
   const sectionRef = useReveal()
 
   /* visibleCount: how many boot lines are currently shown */
