@@ -23,7 +23,7 @@ export const contactInfo = {
 
 export const heroContent = {
   name:     'RANA_YASHWANT',
-  headline: 'Backend & fintech engineer, ex-mutual fund distributor.',
+  headline: 'Software & fintech engineer, ex-mutual fund distributor.',
   subline:  'Building real financial tools — from managing client portfolios as a licensed MFD to engineering the systems that power them.',
   stats: [
     { value: 11000, suffix: '+',       label: 'SCHEMES TRACKED'  },
@@ -134,7 +134,6 @@ export const education = [
 export const certifications = [
   { badge: 'NISM',  name: 'NISM Series V-A',                         issuer: 'AMFI-Registered Mutual Fund Distributor' },
   { badge: 'GCP',   name: 'Google Cloud — Prompt Design in Vertex AI', issuer: 'Credly Verified'                         },
-  { badge: 'HR 3★', name: 'HackerRank Problem-Solving',               issuer: '3 Star'                                  },
 ]
 
 /* ─── Skills — Order Book ─────────────────────────────────────────────────── */

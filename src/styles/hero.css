@@ -110,8 +110,17 @@
 
 .hero__cta {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 0.75rem;
-  flex-wrap: wrap; /* wraps to next line on narrow viewports */
+  flex-wrap: wrap; /* wraps gracefully on narrow viewports */
+}
+
+.hero__cta-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 /* Base button — mono, outlined, explicitly 0 border-radius (no pill shapes, spec §3.1) */
@@ -131,6 +140,20 @@
   cursor: pointer;
   /* Transition covers border-color, text color, and background for hover + active */
   transition: border-color 150ms ease, color 150ms ease, background-color 100ms ease;
+}
+
+/* Primary BUY button — amber filled trade-ticket action */
+.btn--buy {
+  background-color: var(--color-amber);
+  color: var(--color-bg);
+  border-color: var(--color-amber);
+  font-weight: 600;
+}
+
+.btn--buy:hover {
+  opacity: 0.9;
+  background-color: var(--color-amber);
+  color: var(--color-bg);
 }
 
 /* Primary CTA — amber border + text signals the main action */

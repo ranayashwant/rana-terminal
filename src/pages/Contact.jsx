@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { contactInfo } from '../data/content.js'
 import { useReveal } from '../hooks/useReveal.js'
 import { useDocumentTitle } from '../hooks/useDocumentTitle.js'
+import TradeTicket from '../components/TradeTicket.jsx'
 import Footer from '../components/Footer.jsx'
 import '../styles/contact.css'
 
@@ -60,49 +61,7 @@ function Contact() {
       <div className="contact-page">
 
         {/* ── Trade ticket header ── */}
-        <div className="reveal" ref={sectionRef}>
-          <div className="section-label">PLACE AN ORDER</div>
-
-          <div className="ticket-header">
-            {/* Ticker tape row: symbol, exchange, status */}
-            <div className="ticket-symbol-row">
-              <div className="ticket-field">
-                <span className="ticket-field-label">SYMBOL</span>
-                <span className="ticket-field-value ticket-field-value--amber">RANA_YASHWANT</span>
-              </div>
-              <div className="ticket-field">
-                <span className="ticket-field-label">EXCHANGE</span>
-                <span className="ticket-field-value">BACKEND / FINTECH</span>
-              </div>
-              <div className="ticket-field">
-                <span className="ticket-field-label">STATUS</span>
-                <span className="ticket-field-value ticket-field-value--green">OPEN TO WORK</span>
-              </div>
-              <div className="ticket-field">
-                <span className="ticket-field-label">LOCATION</span>
-                <span className="ticket-field-value">INDIA · REMOTE OPEN</span>
-              </div>
-            </div>
-
-            {/* Action buttons */}
-            <div className="ticket-actions">
-              {/* BUY — primary hire action. Scrolls down to the form. */}
-              <a href="#contact-form" className="btn-buy">
-                ▲ BUY — HIRE / COLLABORATE
-              </a>
-
-              {/* WATCHLIST — secondary, refer / stay-in-touch → LinkedIn */}
-              <a
-                href={contactInfo.linkedin}
-                className="btn-watchlist"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                ☆ WATCHLIST — CONNECT ON LINKEDIN
-              </a>
-            </div>
-          </div>
-        </div>
+        <TradeTicket isContactPage={true} />
 
         {/* ── Contact form ── */}
         <div id="contact-form" className="contact-form-wrap">

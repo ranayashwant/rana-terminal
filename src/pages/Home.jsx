@@ -18,13 +18,14 @@ import MFScreener    from '../components/MFScreener.jsx'
 import SLTCDetail    from '../components/SLTCDetail.jsx'
 import Skills        from '../components/Skills.jsx'
 import NAVTimeline   from '../components/NAVTimeline.jsx'
+import TradeTicket    from '../components/TradeTicket.jsx'
 import Footer        from '../components/Footer.jsx'
 import { useReveal } from '../hooks/useReveal.js'
 import { useDocumentTitle } from '../hooks/useDocumentTitle.js'
 import '../styles/projects.css'
 
 function Home() {
-  useDocumentTitle('Rana Yashwant — Backend & Fintech Engineer')
+  useDocumentTitle('Rana Yashwant — Software & Fintech Engineer')
   const projectsRef = useReveal()
 
   return (
@@ -60,7 +61,12 @@ function Home() {
       {/* 7. Career NAV Timeline — SVG line chart */}
       <NAVTimeline />
 
-      {/* 8. Footer */}
+      {/* 8. Initiate Contact — Place an Order trade ticket */}
+      <div style={{ maxWidth: '1200px', margin: '3rem auto 0', padding: '0 2rem' }}>
+        <TradeTicket isContactPage={false} />
+      </div>
+
+      {/* 9. Footer */}
       <Footer />
     </main>
   )
