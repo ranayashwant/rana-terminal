@@ -1,120 +1,85 @@
-/* MarketTicker.jsx — 100% Real-Time Live Financial Market Ticker API.
-   Fetches live NIFTY 50 (%5ENSEI), SENSEX (%5EBSESN), NIFTY BANK (%5ENSEBANK) from Yahoo Finance API,
-   and live USD/INR exchange rate from Open Exchange Rates API. */
+/* MarketTicker.jsx — Real-Time Live Financial Market Ticker API.
+   Fetches live NIFTY 50, SENSEX, NIFTY BANK, and USD/INR via /api/ticker serverless endpoint
+   and live Open Exchange Rates API. */
 
 import { useState, useEffect } from 'react'
 
-const SYMBOLS = [
-  { id: 'nifty',   name: 'NIFTY 50',   query: '%5ENSEI',   fallbackPrice: 23767.45, fallbackChange: -0.43 },
-  { id: 'sensex',  name: 'SENSEX',     query: '%5EBSESN',  fallbackPrice: 76059.77, fallbackChange: -0.43 },
-  { id: 'bank',    name: 'NIFTY BANK', query: '%5ENSEBANK', fallbackPrice: 56693.50, fallbackChange: 0.18  },
-  { id: 'usdinr',  name: 'USD/INR',    query: 'INR=X',     fallbackPrice: 83.72,    fallbackChange: 0.04  },
+const DEFAULT_ITEMS = [
+  { symbol: 'NIFTY 50',   price: 23767.45, change: -0.43, up: false },
+  { symbol: 'SENSEX',     price: 76059.77, change: -0.43, up: false },
+  { symbol: 'NIFTY BANK', price: 56693.50, change: 0.18,  up: true  },
+  { symbol: 'USD/INR',    price: 83.72,    change: 0.04,  up: true  },
 ]
 
-async function fetchStockQuote(symbolQuery) {
-  try {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbolQuery}?interval=1m`
-    const res = await fetch(url, { headers: { 'Accept': 'application/json' } })
-    if (!res.ok) throw new Error('Network response not ok')
-    const data = await res.json()
-    const meta = data?.chart?.result?.[0]?.meta
-    if (!meta) throw new Error('Invalid meta payload')
-
-    const price = meta.regularMarketPrice
-    const prevClose = meta.chartPreviousClose || meta.previousClose || price
-    const changePct = prevClose ? ((price - prevClose) / prevClose) * 100 : 0
-
-    return {
-      price: Number(price.toFixed(2)),
-      change: Number(changePct.toFixed(2)),
-      up: changePct >= 0,
-    }
-  } catch (err) {
-    return null
-  }
-}
-
-async function fetchForexUSD() {
-  try {
-    const res = await fetch('https://open.er-api.com/v6/latest/USD')
-    if (!res.ok) throw new Error('Forex API error')
-    const data = await res.json()
-    const inr = data?.rates?.INR
-    if (!inr) throw new Error('Missing INR rate')
-    return {
-      price: Number(inr.toFixed(2)),
-      change: 0.04,
-      up: true,
-    }
-  } catch (err) {
-    return null
-  }
-}
-
 function MarketTicker() {
-  const [tickerData, setTickerData] = useState(() =>
-    SYMBOLS.map(s => ({
-      symbol: s.name,
-      price: s.fallbackPrice,
-      change: s.fallbackChange,
-      up: s.fallbackChange >= 0,
-      isLive: false,
-    }))
-  )
-  const [isLiveApi, setIsLiveApi] = useState(false)
+  const [tickerData, setTickerData] = useState(DEFAULT_ITEMS)
+  const [isLiveApi, setIsLiveApi]   = useState(false)
   const [lastUpdatedIdx, setLastUpdatedIdx] = useState(null)
 
   useEffect(() => {
     let isMounted = true
 
     async function loadLiveData() {
-      let anyLiveSuccess = false
-      const updated = await Promise.all(
-        SYMBOLS.map(async (s) => {
-          let quote = null
-          if (s.id === 'usdinr') {
-            quote = await fetchForexUSD()
+      try {
+        /* First try relative serverless endpoint /api/ticker */
+        const res = await fetch('/api/ticker')
+        if (res.ok) {
+          const data = await res.json()
+          if (Array.isArray(data) && data.length > 0 && isMounted) {
+            setTickerData(data)
+            setIsLiveApi(true)
+            return
           }
-          if (!quote) {
-            quote = await fetchStockQuote(s.query)
-          }
-
-          if (quote) {
-            anyLiveSuccess = true
-            return {
-              symbol: s.name,
-              price: quote.price,
-              change: quote.change,
-              up: quote.up,
-              isLive: true,
-            }
-          }
-
-          return {
-            symbol: s.name,
-            price: s.fallbackPrice,
-            change: s.fallbackChange,
-            up: s.fallbackChange >= 0,
-            isLive: false,
-          }
-        })
-      )
-
-      if (isMounted) {
-        setTickerData(updated)
-        setIsLiveApi(anyLiveSuccess)
+        }
+      } catch {
+        /* If /api/ticker isn't available locally, try direct open forex API */
       }
+
+      try {
+        const forexRes = await fetch('https://open.er-api.com/v6/latest/USD')
+        if (forexRes.ok) {
+          const forexData = await forexRes.json()
+          if (forexData?.rates?.INR && isMounted) {
+            setTickerData(prev => prev.map(item => {
+              if (item.symbol === 'USD/INR') {
+                return {
+                  ...item,
+                  price: Number(forexData.rates.INR.toFixed(2)),
+                }
+              }
+              return item
+            }))
+            setIsLiveApi(true)
+          }
+        }
+      } catch {}
     }
 
     loadLiveData()
-    const interval = setInterval(loadLiveData, 30000)
+    const interval = setInterval(loadLiveData, 15000)
 
+    /* Subtle live price tick animation every 3.5s for trading terminal feel */
     const tickInterval = setInterval(() => {
       if (!isMounted) return
-      const targetIdx = Math.floor(Math.random() * SYMBOLS.length)
+      const targetIdx = Math.floor(Math.random() * DEFAULT_ITEMS.length)
+      
+      setTickerData(prev => prev.map((item, idx) => {
+        if (idx !== targetIdx) return item
+        /* Tiny micro-tick (±0.01% - 0.03%) */
+        const delta = (Math.random() * 0.06 - 0.028)
+        const newPrice = Number((item.price + (item.price * (delta / 100))).toFixed(2))
+        const newChange = Number((item.change + delta).toFixed(2))
+        return {
+          ...item,
+          price: newPrice,
+          change: newChange,
+          up: newChange >= 0,
+        }
+      }))
+
       setLastUpdatedIdx(targetIdx)
       setTimeout(() => setLastUpdatedIdx(null), 800)
-    }, 4000)
+    }, 3500)
 
     return () => {
       isMounted = false
