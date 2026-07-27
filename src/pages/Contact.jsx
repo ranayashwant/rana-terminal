@@ -15,9 +15,8 @@ import { useDocumentTitle } from '../hooks/useDocumentTitle.js'
 import Footer from '../components/Footer.jsx'
 import '../styles/contact.css'
 
-/* ── Replace this with your real Formspree form ID ── */
-/* Get it from formspree.io → New Form → copy the 8-char ID from the endpoint */
-const FORMSPREE_FORM_ID = 'YOUR_FORM_ID'
+/* ── Live Formspree form ID ── */
+const FORMSPREE_FORM_ID = 'meeyvzve'
 
 function Contact() {
   useDocumentTitle('Rana Yashwant — Contact & Trade Ticket')

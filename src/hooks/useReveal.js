@@ -1,5 +1,5 @@
-/* useReveal.js — robust IntersectionObserver + GSAP reveal hook for React 18 StrictMode.
-   Guarantees elements are 100% visible on mount/scroll with zero blank page issues. */
+/* useReveal.js — Apple-style scale & spring reveal hook.
+   Triggers hardware-accelerated scale expansion & depth pop on scroll. */
 
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
@@ -17,12 +17,11 @@ export function useReveal(options = {}) {
       return
     }
 
-    /* Fallback timer: if observer takes more than 300ms, force reveal to prevent blank page */
     const safetyTimer = setTimeout(() => {
       if (el && !el.classList.contains('revealed')) {
         el.classList.add('revealed')
       }
-    }, 400)
+    }, 450)
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -30,25 +29,30 @@ export function useReveal(options = {}) {
           clearTimeout(safetyTimer)
           el.classList.add('revealed')
 
-          /* Animate child stagger items if present */
-          const items = el.querySelectorAll(options.staggerSelector || '.exp-row, .skill-row')
+          /* Animate child stagger items with Apple spring timing */
+          const items = el.querySelectorAll(options.staggerSelector || '.exp-row, .skill-row, .project-card')
           if (items.length > 0) {
-            gsap.to(items, {
-              opacity: 1,
-              y: 0,
-              duration: 0.5,
-              stagger: 0.08,
-              ease: 'power1.out',
-              overwrite: 'auto',
-            })
+            gsap.fromTo(
+              items,
+              { opacity: 0, y: 20, scale: 0.97 },
+              {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.65,
+                stagger: 0.08,
+                ease: 'power3.out',
+                overwrite: 'auto',
+              }
+            )
           }
 
           observer.unobserve(el)
         }
       },
       {
-        threshold: options.threshold ?? 0.05,
-        rootMargin: options.rootMargin ?? '0px 0px -20px 0px',
+        threshold: options.threshold ?? 0.08,
+        rootMargin: options.rootMargin ?? '0px 0px -30px 0px',
       }
     )
 

@@ -1,12 +1,16 @@
-/* animations.css — global scroll-reveal utility classes.
-   Works with useReveal.js hook: elements start with .reveal,
-   get .revealed added by IntersectionObserver / GSAP when entering viewport. */
+/* animations.css — Apple-style cinematic scale & depth scroll reveal utilities.
+   Works with useReveal.js hook: elements start scaled down & blurred,
+   expanding smoothly to full scale & clarity as they scroll into view. */
 
 .reveal {
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.55s ease, transform 0.55s ease;
-  will-change: opacity, transform;
+  transform: translateY(28px) scale(0.96);
+  filter: blur(4px);
+  transition: 
+    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform, filter;
 }
 
 .reveal.revealed,
@@ -14,10 +18,11 @@
 .revealed .exp-row,
 .revealed .skill-row {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
+  filter: blur(0px);
 }
 
-/* Stagger delays for sequential row reveals */
+/* Stagger delays for sequential card & row reveals */
 .reveal--d1 { transition-delay: 0.08s; }
 .reveal--d2 { transition-delay: 0.16s; }
 .reveal--d3 { transition-delay: 0.24s; }
@@ -32,6 +37,7 @@
   .revealed .reveal {
     opacity: 1 !important;
     transform: none !important;
+    filter: none !important;
     transition: none !important;
   }
 }
