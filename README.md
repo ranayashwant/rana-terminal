@@ -1,85 +1,55 @@
-# ⚡ RANA_TERMINAL — Software & Fintech Portfolio
+# ⚡ Financial Trading Terminal Portfolio Template
 
-[![Live Site](https://img.shields.io/badge/Live_Site-rana--terminal.vercel.app-E8A33D?style=for-the-badge&logo=vercel&logoColor=white)](https://rana-terminal.vercel.app/)
-[![MF Screener Demo](https://img.shields.io/badge/Flagship_Demo-MF_Screener-3ECF8E?style=for-the-badge&logo=react&logoColor=white)](https://mf-screener-three.vercel.app/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+A high-performance, Bloomberg/Kite-inspired developer portfolio template built with **React 18, Vite, Vanilla CSS Tokens, GSAP ScrollTrigger, and Vercel Serverless Functions**.
 
-A high-performance, terminal-inspired portfolio website for **Rana Yashwant Singh** — Software & Fintech Engineer, ex-Mutual Fund Distributor.
-
-Built from scratch using **React 18, Vite, Vanilla CSS Design System, GSAP ScrollTrigger, and Vercel Serverless Functions**. Designed with a strict Bloomberg/Kite trading software aesthetic — monospace typography, dark paneling (`#0B0D0F`), amber signal accents (`#E8A33D`), and real-time financial market telemetry.
+Designed for software, backend, and fintech engineers who want a sleek trading-terminal aesthetic — featuring monospace typography, dark paneling (`#0B0D0F`), amber signal accents (`#E8A33D`), and real-time market data telemetry.
 
 ---
 
-## 🎯 Engineering Philosophy & Spec §0 Rule
+## 🎯 Design Philosophy
 
-> **"Every number on this site is real — zero fabricated stats."**
-
-Unlike typical portfolios with arbitrary skill percentages (e.g. *"90% C++"*), every statistic on this site maps to verifiable real-world metrics:
-- **11,000+** Mutual fund schemes tracked via live AMFI REST API.
-- **89TH %ILE** GATE CSE 2026 examination percentile score.
-- **2+ YRS** Real fintech domain experience as an AMFI-certified MFD managing ₹40L+ AUM across 6 client portfolios.
+- **Zero Generic UI:** Built with custom Vanilla CSS variables (`tokens.css`), sharp 0px border-radii, hairline dividers, and high-contrast dark themes.
+- **Data Integrity First:** All statistics and metrics are backed by defensible status tags rather than arbitrary skill percentages.
+- **Restrained Motion:** Apple-style hardware-accelerated scroll reveals (`scale(0.96) → scale(1.0)` with depth blur) and GSAP micro-interactions with full `prefers-reduced-motion` compliance.
 
 ---
 
-## ✨ Key Features & Architecture
+## ✨ Features & Architecture
 
 ### 📊 1. Real-Time Live Financial Market Ticker (`/api/ticker`)
-- **Serverless API Proxy:** Custom Node.js Vercel serverless function (`/api/ticker.js`) fetching real-time market data from Yahoo Finance & Open Exchange Rates.
-- **Bypasses CORS:** Server-side fetching avoids browser CORS restrictions while serving fresh quotes for:
-  - `NIFTY 50` (`▼ -0.43%`)
-  - `SENSEX` (`▼ -0.43%`)
-  - `NIFTY BANK` (`▲ +0.18%`)
-  - `USD/INR` (`▲ +0.04%`)
+- **Vercel Serverless Function:** Node.js serverless proxy at `api/ticker.js` that fetches market quotes server-side from Yahoo Finance & Open Exchange Rates.
+- **Bypasses CORS:** Eliminates browser CORS issues while serving live market data (`NIFTY 50`, `SENSEX`, `NIFTY BANK`, `USD/INR`).
 - **Live Visual Ticks:** 15-second polling with soft green (`flash-green`) & red (`flash-red`) micro-tick highlights.
 
-### 💼 2. Flagship Project: Mutual Fund Screener (`MFSC`)
-- **Live Demo:** [mf-screener-three.vercel.app](https://mf-screener-three.vercel.app/)
-- **Repository:** [github.com/ranayashwant/mf-screener](https://github.com/ranayashwant/mf-screener)
-- **Features:**
-  - **Live AMFI REST API Feed:** Filters 11,000+ active mutual fund schemes by category, risk, returns, and expense ratio under 50ms.
-  - **SIP Deployment Planner:** Calculates optimal lump-sum vs. SIP installment splits.
-  - **Fund Switch Planner:** Logic derived from 2+ years of real MFD practice, addressing features absent on Zerodha Coin & Groww.
-  - **Interactive DevTools:** Built-in MySQL ER Diagram, Competitor Table, JSON Payload Inspector, and Screenshot Modal.
+### 💼 2. Flagship Project Detailed Views
+- Detailed project section supporting live REST API demonstrations, feature comparison tables, interactive SQL ER diagrams, and JSON payload code inspectors.
+- Modal image screenshot viewer for high-resolution project previews.
 
-### 🤟 3. Flagship Project: Sign Language to Text Conversion (`SLTC`)
-- **Repository:** [github.com/ranayashwant/Sign-Language-to-Text-Conversion](https://github.com/ranayashwant/Sign-Language-to-Text-Conversion)
-- **Features:**
-  - **Real-Time Webcam Inference:** Computer vision pipeline converting 21 hand gesture landmarks to live text.
-  - **Pipeline Breakdown:** `Webcam Feed → MediaPipe 21 Landmarks (42 x,y normalized features) → Random Forest Classifier → Bounding Box Display`.
-  - **Custom Dataset:** 400 manually captured gesture images across 4 classes.
+### 📈 3. Financial Order Book Skills Section
+- Skills presented as a trading **Order Book**:
+  - **Bids (Core Stack):** Primary languages, backend frameworks, and database engines.
+  - **Asks (Learning Stack):** Emerging tools, cloud services, and exploratory technologies.
 
-### 📈 4. Financial Order Book Skills Section
-- Modeled as a trading terminal **Order Book**:
-  - **Bids (Core Stack):** JavaScript (ES6+), Node.js, Express.js, React, MySQL, C/C++, Git.
-  - **Asks (Learning Stack):** Python (ML/CV), Cloud (Vertex AI), GSAP, Docker.
-- Uses defensible status tags (`CORE / 3+ YRS`, `BACKEND API`, `PRODUCTION`, `GATE CSE`) instead of fake percentages.
+### 📈 4. Interactive SVG Career Timeline
+- Custom SVG line chart plotting milestone metrics over time with responsive viewport scaling and offset leader lines.
 
-### 📈 5. Interactive Career NAV Timeline
-- Custom SVG line chart plotting career progression from MFD licensing (Jan 2023) to Industrial Training (UPRVUNL), B.Tech ECE (7.95 CGPA), and GATE CSE 2026.
-- Staggered offset leader lines and mobile-responsive viewport scaling.
+### ⌨️ 5. Terminal Command Palette (`Cmd/Ctrl+K`)
+- Site-wide modal keyboard navigation (`Cmd+K` / `Ctrl+K`).
+- Supports fuzzy search filtering, arrow key selection (`↑`/`↓`), `Enter` navigation, and `Esc` close.
 
-### ⌨️ 6. Terminal Command Palette (`Cmd/Ctrl+K`)
-- Global modal triggerable via `Cmd+K` / `Ctrl+K`.
-- Features real-time fuzzy search filtering, arrow key selection (`↑`/`↓`), `Enter` execution, and `Esc` close.
-
-### 📬 7. Trade Ticket Contact Form (`/contact`)
-- Framed as a trading order ticket (`SYMBOL: RANA_YASHWANT`, `STATUS: OPEN TO WORK`).
-- Formspree AJAX endpoint integration with optional **Phone Number** and **Enquiry Type** dropdown (`Hiring`, `Backend Architecture`, `Freelance`, `Tech Chat`).
-
-### 🍏 8. Apple-Style Scale & Depth Motion
-- Hardware-accelerated GSAP & IntersectionObserver scroll reveals.
-- Sections pop into view with scale expansion (`scale(0.96) → scale(1.0)`), depth blur, and cubic-bezier spring curves.
-- Full `prefers-reduced-motion` compliance for accessibility.
+### 📬 6. Trade Ticket Contact Form
+- Trade-ticket styled contact card integrated with Formspree AJAX (`POST`).
+- Features optional phone number input and custom enquiry type dropdown (`Hiring`, `System Architecture`, `Consulting`, `Tech Chat`).
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Core:** JavaScript (ES6+), HTML5, Vanilla CSS3 (Tokens System)
-- **Framework:** React 18, Vite, React Router DOM v6
+- **Frontend:** React 18, Vite, React Router DOM v6
+- **Styling:** Vanilla CSS Tokens (`tokens.css`, `animations.css`) — Zero utility-first CSS dependencies
 - **Animations:** GSAP 3, ScrollTrigger, CSS Hardware Acceleration
-- **Serverless / Backend API:** Node.js (Vercel API Functions)
-- **Forms & Integration:** Formspree AJAX
+- **Serverless / Backend:** Node.js (Vercel Serverless API Functions)
+- **Forms:** Formspree AJAX API
 - **Deployment:** Vercel (SPA Rewrite Configuration)
 
 ---
@@ -89,56 +59,70 @@ Unlike typical portfolios with arbitrary skill percentages (e.g. *"90% C++"*), e
 ```text
 rana-terminal/
 ├── api/
-│   └── ticker.js                 # Vercel serverless function for live market API
+│   └── ticker.js                 # Serverless Node.js function for live market data
 ├── public/
 │   ├── favicon.svg               # Theme prompt favicon (amber '>')
-│   ├── screenshots/              # High-res project previews
-│   └── RANA YASHWANT SINGH Resume.pdf
+│   └── screenshots/              # Project preview images
 ├── src/
 │   ├── components/
-│   │   ├── Header.jsx            # Sticky nav + Live Market Ticker bar
-│   │   ├── MarketTicker.jsx      # Live NIFTY 50 / SENSEX / USD/INR ticker
-│   │   ├── Hero.jsx              # Typewriter headline + count-up stats + CTAs
-│   │   ├── Ticker.jsx            # Auto-scrolling ticker strip
+│   │   ├── Header.jsx            # Sticky navigation bar
+│   │   ├── MarketTicker.jsx      # Live market index ticker bar
+│   │   ├── Hero.jsx              # Typewriter headline & count-up stats
+│   │   ├── Ticker.jsx            # Auto-scrolling skill strip
 │   │   ├── About.jsx             # "Asset Reallocation" split panel
-│   │   ├── Experience.jsx        # Work history, education, certifications
-│   │   ├── MFScreener.jsx        # Flagship MFSC detailed section & devtools
-│   │   ├── SLTCDetail.jsx        # Flagship SLTC computer vision detail section
-│   │   ├── Skills.jsx            # Order Book (Bids/Asks) + GitHub calendar API
+│   │   ├── Experience.jsx        # Work history & education timeline
+│   │   ├── MFScreener.jsx        # Flagship detailed section & devtools
+│   │   ├── SLTCDetail.jsx        # Computer vision project detail section
+│   │   ├── Skills.jsx            # Order Book (Bids/Asks) + GitHub calendar
 │   │   ├── NAVTimeline.jsx       # SVG milestone line chart
 │   │   ├── TradeTicket.jsx       # Reusable "Place an Order" CTA ticket
 │   │   ├── CommandPalette.jsx    # Cmd/Ctrl+K terminal jump modal
 │   │   └── Footer.jsx            # Build credit & copy-to-clipboard email link
 │   ├── pages/
-│   │   ├── Home.jsx              # Merged single-page layout
+│   │   ├── Home.jsx              # Single-page merged home route
 │   │   ├── Contact.jsx           # Trade ticket contact form page
-│   │   ├── Resume.jsx            # Terminal-boot PDF viewer page
+│   │   ├── Resume.jsx            # Terminal boot sequence & PDF viewer page
 │   │   └── NotFound.jsx         # Custom 404 "SIGNAL LOST" page
 │   ├── data/
-│   │   └── content.js            # Single source of truth for all real site data
+│   │   └── content.js            # SINGLE SOURCE OF TRUTH for all website data
 │   ├── hooks/
 │   │   ├── useReveal.js          # GSAP & IntersectionObserver scroll hook
-│   │   └── useDocumentTitle.js   # Dynamic per-route tab title hook
+│   │   └── useDocumentTitle.js   # Dynamic route tab title hook
 │   ├── styles/
-│   │   ├── tokens.css            # CSS variables (colors, typography, grid)
+│   │   ├── tokens.css            # Design tokens (colors, typography, grid)
 │   │   ├── animations.css        # Apple-style scale & fade utility classes
 │   │   └── [component].css
-│   ├── App.jsx                   # Router root & global layout
+│   ├── App.jsx                   # Router root & layout
 │   └── main.jsx                  # React 18 entry point
 ├── index.html                    # SEO & Open Graph meta tags
-├── vercel.json                   # SPA rewrite routing rules
+├── vercel.json                   # SPA rewrite rules
 └── package.json
 ```
 
 ---
 
-## ⚡ Quick Start & Local Development
+## ⚙️ Customization Guide
+
+All portfolio content is decoupled from components and stored in a single source of truth:
+
+👉 **`src/data/content.js`**
+
+To customize this template for your own portfolio:
+1. Update `heroContent` with your name, headline, subline, and key statistics.
+2. Update `experience`, `education`, and `certifications` arrays.
+3. Update `skills.bids` and `skills.asks` in the Order Book section.
+4. Update `projects` array with your flagship tools and repository URLs.
+5. Replace `FORMSPREE_FORM_ID` in `src/pages/Contact.jsx` with your Formspree form ID.
+
+---
+
+## ⚡ Quick Start & Setup
 
 ### Prerequisites
-- **Node.js** v18+ 
+- **Node.js** v18+
 - **npm** v9+
 
-### Installation
+### Local Setup
 
 1. **Clone the repository:**
    ```bash
@@ -151,7 +135,7 @@ rana-terminal/
    npm install
    ```
 
-3. **Start the local development server:**
+3. **Start development server:**
    ```bash
    npm run dev
    ```
@@ -164,13 +148,22 @@ rana-terminal/
 
 ---
 
-## 📬 Contact & Connect
+## 🚀 Deployment (Vercel)
 
-- **Email:** [ranayashwant.dev@gmail.com](mailto:ranayashwant.dev@gmail.com)
-- **LinkedIn:** [linkedin.com/in/ranayashwant](https://linkedin.com/in/ranayashwant)
-- **GitHub:** [github.com/ranayashwant](https://github.com/ranayashwant)
-- **Location:** India · Remote Open
+This repository includes a pre-configured `vercel.json` file for single-page routing:
+
+```json
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
+```
+
+Simply import the repository on [Vercel](https://vercel.com/), keep default build settings (`npm run build`, output `dist`), and deploy!
 
 ---
 
-*Designed & engineered by Rana Yashwant Singh.*
+## 📄 License
+
+This project is open-source and available under the [MIT License](LICENSE).
