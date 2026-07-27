@@ -168,7 +168,8 @@ Simply import the repository on [Vercel](https://vercel.com/), keep default buil
 
 ## 👤 Author & Credits
 
-Designed & engineered by **Rana Yashwant** ([@ranayashwant](https://github.com/ranayashwant)).
+- Designed & engineered by **Rana Yashwant** ([@ranayashwant](https://github.com/ranayashwant)).
+- Built with AI pair programming assistance from **Google Antigravity** (powered by **Gemini 3.6 Flash** & **Claude 3.7 Sonnet**).
 
 ---
 
