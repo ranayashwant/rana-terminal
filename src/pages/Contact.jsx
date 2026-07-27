@@ -1,12 +1,5 @@
 /* Contact.jsx — /contact route. "Place an Order" trade-ticket framing (spec §3.3).
-   
-   Structure:
-   1. Trade ticket header: SYMBOL, ACTION (BUY + WATCHLIST buttons)
-   2. Working contact form — Formspree backend (spec §3.3 option 1)
-   3. Direct links row: email, GitHub, LinkedIn, resume PDF
-   
-   BEFORE LAUNCH: Create a Formspree account at formspree.io, create a new form,
-   and replace FORMSPREE_FORM_ID below with your real form ID (8-char alphanumeric). */
+   Form includes Name, Email, optional Phone number, optional Enquiry type select, and Message. */
 
 import { useState } from 'react'
 import { contactInfo } from '../data/content.js'
@@ -23,9 +16,11 @@ function Contact() {
   const sectionRef = useReveal()
 
   /* Controlled form state */
-  const [name,    setName]    = useState('')
-  const [email,   setEmail]   = useState('')
-  const [message, setMessage] = useState('')
+  const [name,        setName]        = useState('')
+  const [email,       setEmail]       = useState('')
+  const [phone,       setPhone]       = useState('')
+  const [enquiryType, setEnquiryType] = useState('Select one')
+  const [message,     setMessage]     = useState('')
   const [copiedEmail, setCopiedEmail] = useState(false)
 
   /* Submission status: 'idle' | 'submitting' | 'success' | 'error' */
@@ -40,12 +35,18 @@ function Contact() {
       const res = await fetch(`https://formspree.io/f/${FORMSPREE_FORM_ID}`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify({
+          name,
+          email,
+          phone: phone || 'Not provided',
+          enquiryType,
+          message,
+        }),
       })
 
       if (res.ok) {
         setStatus('success')
-        setName(''); setEmail(''); setMessage('')
+        setName(''); setEmail(''); setPhone(''); setEnquiryType('Select one'); setMessage('')
       } else {
         setStatus('error')
       }
@@ -112,7 +113,7 @@ function Contact() {
 
               {/* Name */}
               <div className="form-field">
-                <label className="form-label" htmlFor="contact-name">NAME</label>
+                <label className="form-label" htmlFor="contact-name">YOUR NAME *</label>
                 <input
                   id="contact-name"
                   type="text"
@@ -120,14 +121,14 @@ function Contact() {
                   value={name}
                   onChange={e => setName(e.target.value)}
                   required
-                  placeholder="Your name"
+                  placeholder="John Doe"
                   autoComplete="name"
                 />
               </div>
 
               {/* Email */}
               <div className="form-field">
-                <label className="form-label" htmlFor="contact-email">EMAIL</label>
+                <label className="form-label" htmlFor="contact-email">EMAIL ADDRESS *</label>
                 <input
                   id="contact-email"
                   type="email"
@@ -135,21 +136,53 @@ function Contact() {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   required
-                  placeholder="you@company.com"
+                  placeholder="you@example.com"
                   autoComplete="email"
                 />
               </div>
 
+              {/* Phone number (Optional) */}
+              <div className="form-field">
+                <label className="form-label" htmlFor="contact-phone">PHONE NUMBER (OPTIONAL)</label>
+                <input
+                  id="contact-phone"
+                  type="tel"
+                  className="form-input"
+                  value={phone}
+                  onChange={e => setPhone(e.target.value)}
+                  placeholder="+91 00000 00000"
+                  autoComplete="tel"
+                />
+              </div>
+
+              {/* Enquiry type (Optional Dropdown) */}
+              <div className="form-field">
+                <label className="form-label" htmlFor="contact-enquiry">ENQUIRY TYPE (OPTIONAL)</label>
+                <select
+                  id="contact-enquiry"
+                  className="form-select"
+                  value={enquiryType}
+                  onChange={e => setEnquiryType(e.target.value)}
+                >
+                  <option value="Select one">Select one</option>
+                  <option value="Hiring / Full-Time Role">Hiring / Full-Time Role</option>
+                  <option value="Backend / Fintech Architecture">Backend / Fintech Architecture</option>
+                  <option value="Freelance / Consulting Project">Freelance / Consulting Project</option>
+                  <option value="Technical Advisory / MFD Domain">Technical Advisory / MFD Domain</option>
+                  <option value="Just up for a tech chat">Just up for a tech chat</option>
+                </select>
+              </div>
+
               {/* Message */}
               <div className="form-field form-field--full">
-                <label className="form-label" htmlFor="contact-message">MESSAGE</label>
+                <label className="form-label" htmlFor="contact-message">YOUR MESSAGE *</label>
                 <textarea
                   id="contact-message"
                   className="form-textarea"
                   value={message}
                   onChange={e => setMessage(e.target.value)}
                   required
-                  placeholder="What are you working on?"
+                  placeholder="What do you need, what is the goal, and when do you want to launch?"
                 />
               </div>
 
@@ -161,7 +194,7 @@ function Contact() {
               className="form-submit"
               disabled={status === 'submitting'}
             >
-              {status === 'submitting' ? 'SENDING...' : '[ EXECUTE ORDER ]'}
+              {status === 'submitting' ? 'SENDING...' : '[ EXECUTE ORDER ↗ ]'}
             </button>
 
             {/* Success / error banners */}
