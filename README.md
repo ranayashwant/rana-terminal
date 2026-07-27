@@ -4,6 +4,8 @@ A high-performance, Bloomberg/Kite-inspired developer portfolio template built w
 
 Designed for software, backend, and fintech engineers who want a sleek trading-terminal aesthetic — featuring monospace typography, dark paneling (`#0B0D0F`), amber signal accents (`#E8A33D`), and real-time market data telemetry.
 
+*Designed & engineered by **Rana Yashwant** ([@ranayashwant](https://github.com/ranayashwant)).*
+
 ---
 
 ## 🎯 Design Philosophy
@@ -161,6 +163,12 @@ This repository includes a pre-configured `vercel.json` file for single-page rou
 ```
 
 Simply import the repository on [Vercel](https://vercel.com/), keep default build settings (`npm run build`, output `dist`), and deploy!
+
+---
+
+## 👤 Author & Credits
+
+Designed & engineered by **Rana Yashwant** ([@ranayashwant](https://github.com/ranayashwant)).
 
 ---
 
